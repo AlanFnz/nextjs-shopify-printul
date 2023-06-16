@@ -1,6 +1,13 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from 'react';
 
-export default function useModal() {
+interface UseModalReturn {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  toggle: () => void;
+  closeModal: () => void;
+}
+
+export default function useModal(): UseModalReturn {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -9,7 +16,7 @@ export default function useModal() {
 
   const closeModal = () => {
     setIsOpen(false);
-  }
+  };
 
   return {
     isOpen,

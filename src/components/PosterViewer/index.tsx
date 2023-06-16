@@ -24,6 +24,7 @@ const PosterViewer = (props: PosterViewerTypes) => {
 
   useEffect(() => {
     setIsOpen(!!currentPoster?.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPoster]);
 
   const closeAction = () => {
