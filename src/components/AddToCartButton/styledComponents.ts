@@ -12,4 +12,5 @@ export const ButtonContainer = styled.div`
   padding: 10px 12px;
   text-align: center;
   background: #fff;
+  color: #111;
 `;

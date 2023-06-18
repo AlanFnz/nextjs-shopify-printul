@@ -11,7 +11,7 @@ interface ContainerTypes {
 }
 
 interface OptionTypes {
-  ket?: any;
+  key?: number;
 }
 
 export const DropdownContainer = styled.div<ContainerTypes>`
@@ -54,6 +54,7 @@ export const OptionsContainer = styled.div<ContainerTypes>`
   position: absolute;
   bottom: 50px;
   width: 100%;
+  color: #111;
   background: #fff;
   border-radius: 6px;
   box-shadow: 0px 30px 30px rgba(0, 0, 0, 0.05);
