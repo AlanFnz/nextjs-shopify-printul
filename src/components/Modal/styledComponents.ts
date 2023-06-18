@@ -21,6 +21,7 @@ export const ModalBox = styled.div`
   height: 75vh;
   padding: 1rem;
   border-radius: 0.5rem;
+  bottom: 1.3rem;
 
   @media only screen and (max-width: ${mobileBreakpoint}) {
     height: unset;
