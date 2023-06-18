@@ -5,6 +5,7 @@ import {
   OptionsContainer,
   Option,
 } from './styledComponents';
+import { outsideDismiss } from '@/lib/utils';
 
 const Dropdown = (props: any) => {
   const [dropdownState, setDropdownState] = useReducer(
@@ -30,20 +31,19 @@ const Dropdown = (props: any) => {
     <DropdownContainer
       isOpen={dropdownState.isOpen}
       onClick={() => setDropdownState({ isOpen: !dropdownState.isOpen })}
+      onBlur={(e) => outsideDismiss(e, setDropdownState)}
     >
-        <OptionsContainer isOpen={dropdownState.isOpen}>
-          {dropdownState.isOpen && props.options &&
-            props.options.map((option: any) => {
-              return (
-                <Option
-                  onClick={() => onSelectOption(option)}
-                  key={option.id}
-                >
-                  {option.title}
-                </Option>
-              );
-            })}
-        </OptionsContainer>
+      <OptionsContainer isOpen={dropdownState.isOpen}>
+        {dropdownState.isOpen &&
+          props.options &&
+          props.options.map((option: any) => {
+            return (
+              <Option onClick={() => onSelectOption(option)} key={option.id}>
+                {option.title}
+              </Option>
+            );
+          })}
+      </OptionsContainer>
       <InputPlaceholder
         type='text'
         readOnly
