@@ -11,7 +11,7 @@ interface ContainerTypes {
 }
 
 interface OptionTypes {
-  key?: number;
+  key?: string;
 }
 
 export const DropdownContainer = styled.div<ContainerTypes>`

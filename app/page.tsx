@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from 'shopify-buy';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
@@ -18,22 +18,29 @@ const MainContainer = styled.div`
   padding: 30px 5vw;
 `;
 
+const columnsCountBreakPoints = { 350: 1, 750: 2, 900: 3 };
+
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
   const posters = useSelector((state: RootState) => state.shopify.posters);
 
   useEffect(() => {
     dispatch(fetchPosters());
+    // dispatch dependency is not needed here
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setPoster = (poster: Product) => {
-    dispatch(setCurrentPoster(poster));
-  };
+  const setPoster = useCallback(
+    (poster: Product) => {
+      dispatch(setCurrentPoster(poster));
+    },
+    [dispatch]
+  );
+
   return (
     <main className={styles.app}>
       <MainContainer>
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
+        <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
           <Masonry gutter={'6px'}>
             {posters.map((poster) => (
               <Poster

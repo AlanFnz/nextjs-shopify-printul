@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer } from 'react';
 import {
   DropdownContainer,
   InputPlaceholder,
@@ -7,11 +7,24 @@ import {
 } from './styledComponents';
 import { outsideDismiss } from '@/lib/utils';
 
-const Dropdown = (props: any) => {
+interface DropdownOption {
+  id: string;
+  title: string;
+}
+
+interface DropdownProps {
+  options: DropdownOption[];
+}
+
+interface DropdownState {
+  isOpen: boolean;
+  selectedOptionTitle: string;
+  selectedOptionId: string;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ options }) => {
   const [dropdownState, setDropdownState] = useReducer(
-    (prev: any, next: any) => {
-      return { ...prev, ...next };
-    },
+    (prev: DropdownState, next: Partial<DropdownState>) => ({ ...prev, ...next }),
     {
       isOpen: false,
       selectedOptionTitle: '',
@@ -19,7 +32,11 @@ const Dropdown = (props: any) => {
     }
   );
 
-  const onSelectOption = (option: any) => {
+  const handleDropdownClick = () => {
+    setDropdownState({ isOpen: !dropdownState.isOpen });
+  };
+
+  const handleOptionClick = (option: DropdownOption) => {
     setDropdownState({
       isOpen: false,
       selectedOptionTitle: option.title,
@@ -30,28 +47,32 @@ const Dropdown = (props: any) => {
   return (
     <DropdownContainer
       isOpen={dropdownState.isOpen}
-      onClick={() => setDropdownState({ isOpen: !dropdownState.isOpen })}
+      onClick={handleDropdownClick}
       onBlur={(e) => outsideDismiss(e, setDropdownState)}
+      role="combobox"
+      aria-expanded={dropdownState.isOpen}
+      aria-haspopup="listbox"
     >
-      <OptionsContainer isOpen={dropdownState.isOpen}>
+      <OptionsContainer isOpen={dropdownState.isOpen} role="listbox">
         {dropdownState.isOpen &&
-          props.options &&
-          props.options.map((option: any) => {
-            return (
-              <Option onClick={() => onSelectOption(option)} key={option.id}>
-                {option.title}
-              </Option>
-            );
-          })}
+          options &&
+          options.map((option) => (
+            <Option
+              onClick={() => handleOptionClick(option)}
+              key={option.id}
+              role="option"
+            >
+              {option.title}
+            </Option>
+          ))}
       </OptionsContainer>
       <InputPlaceholder
-        type='text'
+        type="text"
         readOnly
         placeholder={
-          dropdownState.selectedOptionTitle
-            ? dropdownState.selectedOptionTitle
-            : 'Select variant'
+          dropdownState.selectedOptionTitle || 'Select variant'
         }
+        aria-readonly="true"
       />
     </DropdownContainer>
   );

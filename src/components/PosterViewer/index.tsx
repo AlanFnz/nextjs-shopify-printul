@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,29 +12,38 @@ import Dropdown from '../Dropdown';
 import AddToCartButton from '../AddToCartButton';
 import PosterInfoButton from '../PosterInfoButton';
 
-interface PosterViewerTypes {}
+interface Image {
+  src: string;
+}
 
-const PosterViewer = (props: PosterViewerTypes) => {
+interface Poster {
+  title: string;
+  images: Image[];
+  id?: string;
+  variants?: any[];
+}
+
+const PosterViewer = () => {
   const { isOpen, setIsOpen } = useModal();
   const dispatch = useDispatch<AppDispatch>();
-  const currentPoster = useSelector(
-    (state: RootState) => state.shopify.currentPoster
+  const currentPoster = useSelector<RootState, Poster | null>(
+    (state) => state.shopify.currentPoster
   );
-  const { title, images } = currentPoster
-    ? currentPoster
-    : { title: '', images: [{ src: '' }] };
+  const { title, images } = currentPoster || {
+    title: '',
+    images: [{ src: '' }],
+  };
 
   useEffect(() => {
-    setIsOpen(!!currentPoster?.id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPoster]);
+    setIsOpen(Boolean(currentPoster?.id));
+  }, [currentPoster, setIsOpen]);
 
   const closeAction = () => {
     dispatch(cleanCurrentPoster());
   };
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} closeAction={closeAction}>
+    <Modal isOpen={isOpen} closeAction={closeAction}>
       <PosterContainer>
         <PosterImage
           alt={title}
@@ -44,7 +53,7 @@ const PosterViewer = (props: PosterViewerTypes) => {
           unoptimized={true}
         />
       </PosterContainer>
-      {currentPoster?.variants && <Dropdown options={currentPoster.variants}/>}
+      {currentPoster?.variants && <Dropdown options={currentPoster.variants} />}
       <PosterInfoButton />
       <AddToCartButton />
     </Modal>

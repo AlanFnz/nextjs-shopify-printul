@@ -6,7 +6,7 @@ import { LogoContainer, LogoText } from './styledComponents';
 const LogoHeader = () => {
   return (
     <LogoContainer>
-      <LogoText href="/">{'Mystery Skools'}</LogoText>
+      <LogoText href="/" aria-label="Mystery Pulse Home">{'Mystery Skools'}</LogoText>
     </LogoContainer>
   );
 };
