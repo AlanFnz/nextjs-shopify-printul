@@ -1,11 +1,12 @@
-"use client"
+'use client';
 
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import { AppDispatch, RootState } from '@/state/store';
-import { fetchPosters, setCurrentPoster } from '@/state/slices/shopifySlice';
+import { setCurrentPoster } from '@/state/slices/shopifySlice';
+import { fetchPosters } from '@/state/slices/shopifySlice/shopifySlice.thunks';
 
 import Poster from '@/features/posters/Poster';
 import { Product } from 'shopify-buy';
