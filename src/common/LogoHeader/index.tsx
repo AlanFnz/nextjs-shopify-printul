@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { LogoContainer, LogoText } from './styledComponents';
+import { LogoContainer, LogoText } from './LogoHeader.styles';
 
 const LogoHeader = () => {
   return (

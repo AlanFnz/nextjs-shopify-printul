@@ -6,11 +6,11 @@ import { AppDispatch, RootState } from '@/state/store';
 import { cleanCurrentPoster } from '@/state/slices/shopifySlice';
 import useModal from '@/hooks/useModal';
 
-import { PosterContainer, PosterImage } from './styledComponents';
-import Modal from '../Modal';
-import Dropdown from '../Dropdown';
-import AddToCartButton from '../AddToCartButton';
-import PosterInfoButton from '../PosterInfoButton';
+import { PosterContainer, PosterImage } from './PosterViewer.styles';
+import Modal from '@/common/Modal';
+import Dropdown from '@/common/Dropdown';
+import AddToCartButton from '@/common/AddToCartButton';
+import PosterInfoButton from '@/features/posters/PosterInfoButton';
 
 interface Image {
   src: string;

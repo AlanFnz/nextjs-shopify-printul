@@ -4,7 +4,7 @@ import {
   InputPlaceholder,
   OptionsContainer,
   Option,
-} from './styledComponents';
+} from './Dropdown.styles';
 import { outsideDismiss } from '@/lib/utils';
 
 interface DropdownOption {

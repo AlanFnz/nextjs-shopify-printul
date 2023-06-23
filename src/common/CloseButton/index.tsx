@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrapper, Circle, Line } from './styledComponents';
+import { Wrapper, Circle, Line } from './CloseButton.styles';
 
 interface CloseButton {
   isModal: boolean;

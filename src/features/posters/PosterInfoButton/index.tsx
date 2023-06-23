@@ -1,6 +1,6 @@
 import React from 'react';
 import { InfoSvg } from '@/constants';
-import { ButtonContainer } from './styledComponents';
+import { ButtonContainer } from './PosterInfoButton.styles';
 
 const PosterInfoButton = (props: any) => {
   return (

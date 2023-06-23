@@ -7,7 +7,7 @@ import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { AppDispatch, RootState } from '@/state/store';
 import { fetchPosters, setCurrentPoster } from '@/state/slices/shopifySlice';
 
-import Poster from '@/components/Poster';
+import Poster from '@/features/posters/Poster';
 import { Product } from 'shopify-buy';
 
 const columnsCountBreakPoints = { 350: 1, 750: 2, 900: 3 };

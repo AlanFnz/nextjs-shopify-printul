@@ -1,6 +1,6 @@
 import React from 'react';
-import useMasonryImage from '../../hooks/useImagePosition';
-import { PosterContainer, PosterImage } from './styledComponents';
+import useMasonryImage from '../../../hooks/useImagePosition';
+import { PosterContainer, PosterImage } from './Poster.styles';
 
 interface Props {
   title: string;

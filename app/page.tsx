@@ -1,5 +1,5 @@
 import styles from './page.module.css';
-import PosterGrid from '@/components/PosterGrid';
+import PosterGrid from '@/features/posters/PosterGrid';
 
 export default function Home() {
   return (

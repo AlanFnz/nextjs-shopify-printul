@@ -1,9 +1,9 @@
-import LogoHeader from '@/components/LogoHeader';
+import LogoHeader from '@/common/LogoHeader';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import SocialLinks from '@/components/SocialLinks';
+import SocialLinks from '@/common/SocialLinks';
 import { Providers } from '@/state/provider';
-import PosterViewer from '@/components/PosterViewer';
+import PosterViewer from '@/features/posters/PosterViewer';
 
 const inter = Inter({ subsets: ['latin'] });
 
