@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import shopifyReducer from './slices/shopify';
+import shopifyReducer from './slices/shopifySlice';
 
 const store = configureStore({
   reducer: {

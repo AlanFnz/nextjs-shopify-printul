@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/state/store';
-import { cleanCurrentPoster } from '@/state/slices/shopify';
+import { cleanCurrentPoster } from '@/state/slices/shopifySlice';
 import useModal from '@/hooks/useModal';
 
 import { PosterContainer, PosterImage } from './styledComponents';

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import { AppDispatch, RootState } from '@/state/store';
-import { fetchPosters, setCurrentPoster } from '@/state/slices/shopify';
+import { fetchPosters, setCurrentPoster } from '@/state/slices/shopifySlice';
 
 import Poster from '@/components/Poster';
 import { Product } from 'shopify-buy';
