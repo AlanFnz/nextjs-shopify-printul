@@ -1,14 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import Client, { Product } from 'shopify-buy';
 import { RootState } from '../../store';
-
-type InitialStateType = {
-  client: Client | null;
-  posters: Product[];
-  currentPoster: Product | null;
-  errorMessage: string;
-  loading: boolean;
-};
+import { buildClient, setLoading } from './shopifySlice.utils';
+import { InitialStateType } from './shopifySlice.types';
 
 const initialState: InitialStateType = {
   client: null,
@@ -17,14 +11,6 @@ const initialState: InitialStateType = {
   errorMessage: '',
   loading: false,
 };
-
-function buildClient() {
-  return Client.buildClient({
-    storefrontAccessToken: process.env.NEXT_PUBLIC_STOREFRONT_TOKEN!,
-    domain: process.env.NEXT_PUBLIC_STORE_URL!,
-    apiVersion: process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION!,
-  });
-}
 
 export const createShopifyClient = createAsyncThunk(
   'posters/createClient',
@@ -42,10 +28,6 @@ export const fetchPosters = createAsyncThunk<
   const products = await client.product.fetchAll();
   return products;
 });
-
-function setLoading(state: InitialStateType, loading: boolean) {
-  state.loading = loading;
-}
 
 const shopifySlice = createSlice({
   name: 'posters',
