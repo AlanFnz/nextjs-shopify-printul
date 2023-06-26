@@ -1,5 +1,5 @@
 import LogoHeader from '@/common/LogoHeader';
-import './globals.css';
+import "@/styles/globals.css"
 import { Inter } from 'next/font/google';
 import SocialLinks from '@/common/SocialLinks';
 import { Providers } from '@/state/provider';
