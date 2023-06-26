@@ -7,9 +7,9 @@ import { cleanCurrentPoster } from '@/state/slices/shopifySlice';
 import useModal from '@/hooks/useModal';
 
 import { PosterContainer, PosterImage } from './PosterViewer.styles';
-import Modal from '@/common/Modal';
-import Dropdown from '@/common/Dropdown';
-import AddToCartButton from '@/common/AddToCartButton';
+import Modal from '@/components/common/Modal';
+import Dropdown from '@/components/common/Dropdown';
+import AddToCartButton from '@/components/common/AddToCartButton';
 import PosterInfoButton from '@/features/posters/PosterInfoButton';
 
 interface Image {

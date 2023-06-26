@@ -1,7 +1,7 @@
-import LogoHeader from '@/common/LogoHeader';
+import LogoHeader from '@/components/common/LogoHeader';
 import "@/styles/globals.css"
 import { Inter } from 'next/font/google';
-import SocialLinks from '@/common/SocialLinks';
+import SocialLinks from '@/components/common/SocialLinks';
 import { Providers } from '@/state/provider';
 import PosterViewer from '@/features/posters/PosterViewer';
 

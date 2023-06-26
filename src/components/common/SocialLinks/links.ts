@@ -1,4 +1,4 @@
-import type { Link } from '../../types';
+import type { Link } from '../../../types';
 
 //TODO: should come from API
 export const links: Link[] = [
