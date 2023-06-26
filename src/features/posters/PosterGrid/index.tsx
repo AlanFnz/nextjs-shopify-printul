@@ -3,15 +3,14 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { Product } from 'shopify-buy';
 
 import { AppDispatch, RootState } from '@/state/store';
 import { setCurrentPoster } from '@/state/slices/shopifySlice';
 import { fetchPosters } from '@/state/slices/shopifySlice/shopifySlice.thunks';
 
 import Poster from '@/features/posters/Poster';
-import { Product } from 'shopify-buy';
-
-const columnsCountBreakPoints = { 350: 1, 750: 2, 900: 3 };
+import { columnsCountBreakPoints, masonryGutter } from './PosterGrid.styles';
 
 const PosterGrid = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,7 +30,7 @@ const PosterGrid = () => {
   );
   return (
     <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
-      <Masonry gutter={'6px'}>
+      <Masonry gutter={masonryGutter}>
         {posters.map((poster) => (
           <Poster
             key={poster.id}
