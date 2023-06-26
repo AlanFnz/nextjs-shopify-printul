@@ -1,9 +1,14 @@
-import LogoHeader from '@/components/common/LogoHeader';
 import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
+
+import LogoHeader from '@/components/common/LogoHeader';
 import SocialLinks from '@/components/common/SocialLinks';
-import { Providers } from '@/state/provider';
 import PosterViewer from '@/features/posters/PosterViewer';
+
+import { fontMono, fontSans } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
+
+import { Providers } from '@/state/provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,7 +41,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased',
+          fontSans.variable,
+          fontMono.variable
+        )}
+      >
         <Providers>
           <PosterViewer />
           <LogoHeader />

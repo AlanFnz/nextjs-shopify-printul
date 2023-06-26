@@ -3,13 +3,16 @@
 import StyledComponentsRegistry from '@/lib/styledComponentsRegistry';
 import { Provider } from 'react-redux';
 import store from './store';
+import { ThemeProvider } from '@/components/themeProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
-      <StyledComponentsRegistry>
-        <>{children}</>
-      </StyledComponentsRegistry>
+      <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+        <StyledComponentsRegistry>
+          <>{children}</>
+        </StyledComponentsRegistry>
+      </ThemeProvider>
     </Provider>
   );
 }
