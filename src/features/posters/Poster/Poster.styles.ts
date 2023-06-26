@@ -35,6 +35,7 @@ export const PosterContainer = styled.div`
     font-style: italic;
     font-weight: 100;
     content: '${(props) => props.title}';
+    transition: 200ms ease-out;
   }
 
   &:hover:after {
