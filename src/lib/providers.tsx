@@ -2,7 +2,7 @@
 
 import StyledComponentsRegistry from '@/lib/styledComponentsRegistry';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from '../state/store';
 import { ThemeProvider } from '@/components/themeProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
