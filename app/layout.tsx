@@ -1,9 +1,5 @@
 import '@/styles/globals.css';
 
-import LogoHeader from '@/components/common/LogoHeader';
-import SocialLinks from '@/components/common/SocialLinks';
-import PosterViewer from '@/features/posters/PosterViewer';
-
 import { fontMono, fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
@@ -45,12 +41,7 @@ export default function RootLayout({
           fontMono.variable
         )}
       >
-        <Providers>
-          <PosterViewer />
-          <LogoHeader />
-          <SocialLinks />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
