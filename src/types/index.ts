@@ -1,3 +1,5 @@
+import { Icons } from '@/components/icons';
+
 export type Poster = {
   id: number;
   printfulId: number;
@@ -12,4 +14,24 @@ export type Poster = {
   downloadable: boolean;
   dateCreated: number;
   lastUpdate: number;
-}
+};
+
+export type NavItem = {
+  title: string;
+  href?: string;
+  disabled?: boolean;
+  external?: boolean;
+  icon?: keyof typeof Icons;
+  label?: string;
+  description?: string;
+};
+
+export type NavItemWithChildren = NavItem & {
+  items: NavItemWithChildren[];
+};
+
+export type NavItemWithOptionalChildren = NavItem & {
+  items?: NavItemWithChildren[];
+};
+
+export type MainNavItem = NavItemWithOptionalChildren;
