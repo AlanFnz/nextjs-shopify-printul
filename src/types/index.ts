@@ -35,3 +35,19 @@ export type NavItemWithOptionalChildren = NavItem & {
 };
 
 export type MainNavItem = NavItemWithOptionalChildren;
+
+export type Link = {
+  id: string;
+  title: string;
+  url: string;
+  visible: boolean;
+  dateCreated: string;
+  lastUpdate: string | null;
+  type: string;
+  svg: {
+    xmlns: string;
+    viewBox: string;
+    fill: string;
+    d: string;
+  };
+};
