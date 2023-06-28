@@ -1,8 +1,8 @@
 // Modal.tsx
 
 import React, { ReactNode } from 'react';
-import CloseButton from '../../common/CloseButton';
-import { ModalBox, ModalOverlay } from './styledComponents';
+import CloseButton from '../../ui/CloseButton';
+import { ModalBox, ModalOverlay } from './Moda.styles';
 
 interface ModalProps {
   children?: ReactNode;

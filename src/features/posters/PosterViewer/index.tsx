@@ -8,8 +8,8 @@ import useModal from '@/hooks/useModal';
 
 import { PosterContainer, PosterImage } from './PosterViewer.styles';
 import Modal from '@/components/layout/Modal';
-import Dropdown from '@/components/common/Dropdown';
-import AddToCartButton from '@/components/common/AddToCartButton';
+import Dropdown from '@/components/ui/Dropdown';
+import AddToCartButton from '@/components/ui/AddToCartButton';
 import PosterInfoButton from '@/features/posters/PosterInfoButton';
 
 interface Image {
