@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { SocialLinksContainer, SocialLinksList } from './styledComponents';
+import { SocialLinksContainer, SocialLinksList } from './SocialLinks.styles';
 import { links } from './links';
 
 const SocialLinks = () => {
