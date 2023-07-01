@@ -1,8 +1,7 @@
 import '@/styles/globals.css';
 
-import LogoHeader from '@/components/layout/LogoHeader';
-import SocialLinks from '@/components/layout/SocialLinks';
 import PosterViewer from '@/features/posters/PosterViewer';
+import { SiteHeader } from '@/components/layout/SiteHeader';
 
 export default function RootLayout({
   children,
@@ -12,8 +11,7 @@ export default function RootLayout({
   return (
     <>
       <PosterViewer />
-      <LogoHeader />
-      <SocialLinks />
+      <SiteHeader user={null} />
       {children}
     </>
   );

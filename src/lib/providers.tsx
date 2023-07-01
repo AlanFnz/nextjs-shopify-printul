@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/components/themeProvider';
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
-      <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+      <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
         <StyledComponentsRegistry>
           <>{children}</>
         </StyledComponentsRegistry>
