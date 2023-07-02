@@ -10,26 +10,21 @@ export const siteConfig = {
   mainNav: [
     {
       title: 'Home',
-      items: [
-        {
-          title: 'Posters',
-          href: '/posters',
-          description: 'Posters.',
-          items: [],
-        },
-        {
-          title: 'Music',
-          href: '/music',
-          description: 'Releases.',
-          items: [],
-        },
-        {
-          title: 'Contact',
-          href: '/contact',
-          description: 'Get in touch.',
-          items: [],
-        },
-      ],
+    },
+    {
+      title: 'Posters',
+      href: '/posters',
+      description: 'Posters',
+    },
+    {
+      title: 'Music',
+      href: '/music',
+      description: 'Releases',
+    },
+    {
+      title: 'Contact',
+      href: '/contact',
+      description: 'Get in touch',
     },
   ] satisfies MainNavItem[],
   links: {
