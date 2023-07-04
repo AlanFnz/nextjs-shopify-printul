@@ -3,6 +3,7 @@ import { Checkout, Product } from 'shopify-buy';
 import { RootState } from '@/state/store';
 import { getClient } from './shopifySlice.utils';
 
+// TODO: fetch posters server side
 export const fetchPosters = createAsyncThunk<
   Product[],
   void,

@@ -11,11 +11,13 @@ import { fetchPosters } from '@/state/slices/shopifySlice/shopifySlice.thunks';
 
 import Poster from '@/features/posters/Poster';
 import { columnsCountBreakPoints, masonryGutter } from './PosterGrid.styles';
+import { DialogTrigger } from '@/components/ui/Dialog';
 
 const PosterGrid = () => {
   const dispatch = useDispatch<AppDispatch>();
   const posters = useSelector((state: RootState) => state.shopify.posters);
 
+  // TODO: get posters server side
   useEffect(() => {
     dispatch(fetchPosters());
     // dispatch dependency is not needed here
@@ -32,12 +34,13 @@ const PosterGrid = () => {
     <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
       <Masonry gutter={masonryGutter}>
         {posters.map((poster) => (
-          <Poster
-            key={poster.id}
-            title={poster.title}
-            src={poster.images[0].src}
-            setPoster={() => setPoster(poster)}
-          />
+          <DialogTrigger key={poster.id}>
+            <Poster
+              title={poster.title}
+              src={poster.images[0].src}
+              setPoster={() => setPoster(poster)}
+            />
+          </DialogTrigger>
         ))}
       </Masonry>
     </ResponsiveMasonry>

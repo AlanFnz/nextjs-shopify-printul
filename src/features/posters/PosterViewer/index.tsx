@@ -1,16 +1,15 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/state/store';
 import { cleanCurrentPoster } from '@/state/slices/shopifySlice';
-import useModal from '@/hooks/useModal';
 
 import { PosterContainer, PosterImage } from './PosterViewer.styles';
-import Modal from '@/components/layout/Modal';
 import Dropdown from '@/components/ui/Dropdown';
 import AddToCartButton from '@/components/ui/AddToCartButton';
 import PosterInfoButton from '@/features/posters/PosterInfoButton';
+import { DialogContent, DialogFooter } from '@/components/ui/Dialog';
 
 interface Image {
   src: string;
@@ -24,7 +23,6 @@ interface Poster {
 }
 
 const PosterViewer = () => {
-  const { isOpen, setIsOpen } = useModal();
   const dispatch = useDispatch<AppDispatch>();
   const currentPoster = useSelector<RootState, Poster | null>(
     (state) => state.shopify.currentPoster
@@ -34,16 +32,12 @@ const PosterViewer = () => {
     images: [{ src: '' }],
   };
 
-  useEffect(() => {
-    setIsOpen(Boolean(currentPoster?.id));
-  }, [currentPoster, setIsOpen]);
-
   const closeAction = () => {
     dispatch(cleanCurrentPoster());
   };
 
   return (
-    <Modal isOpen={isOpen} closeAction={closeAction}>
+    <DialogContent onClose={closeAction}>
       <PosterContainer>
         <PosterImage
           alt={title}
@@ -53,10 +47,14 @@ const PosterViewer = () => {
           unoptimized={true}
         />
       </PosterContainer>
-      {currentPoster?.variants && <Dropdown options={currentPoster.variants} />}
-      <PosterInfoButton />
-      <AddToCartButton />
-    </Modal>
+      <DialogFooter>
+        {currentPoster?.variants && (
+          <Dropdown options={currentPoster.variants} />
+        )}
+        <PosterInfoButton />
+        <AddToCartButton />
+      </DialogFooter>
+    </DialogContent>
   );
 };
 
