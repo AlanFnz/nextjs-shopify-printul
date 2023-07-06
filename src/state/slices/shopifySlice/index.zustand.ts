@@ -1,10 +1,27 @@
 import create from 'zustand';
-import { Product } from 'shopify-buy';
-import {
-  createCheckout,
-  fetchPosters,
-  updateCheckout,
-} from './shopifySlice.thunks';
+import { Checkout, Product } from 'shopify-buy';
+import { getClient } from './shopifySlice.utils';
+
+export const fetchPosters = async (): Promise<Product[]> => {
+  const client = getClient();
+  const products = await client.product.fetchAll();
+  return products;
+};
+
+export const createCheckout = async (): Promise<Checkout> => {
+  const client = getClient();
+  const checkout = await client.checkout.create();
+  return checkout;
+};
+
+export const updateCheckout = async (
+  checkoutId: string,
+  input: any
+): Promise<Checkout> => {
+  const client = getClient();
+  const checkout = await client.checkout.updateAttributes(checkoutId, input);
+  return checkout;
+};
 
 type State = {
   posters: Product[];
@@ -18,7 +35,7 @@ type State = {
   cleanErrorMessage: () => void;
   fetchPosters: () => Promise<void>;
   createCheckout: () => Promise<void>;
-  updateCheckout: () => Promise<void>;
+  updateCheckout: (checkoutId: string, input: any) => Promise<void>;
 };
 
 const useStore = create<State>((set) => ({
@@ -36,7 +53,7 @@ const useStore = create<State>((set) => ({
     try {
       const posters = await fetchPosters();
       set({ posters, loading: false, errorMessage: '' });
-    } catch (error) {
+    } catch (error: any) {
       set({ loading: false, errorMessage: error.message });
     }
   },
@@ -45,16 +62,16 @@ const useStore = create<State>((set) => ({
     try {
       const checkout = await createCheckout();
       set({ checkout, loading: false });
-    } catch (error) {
+    } catch (error: any) {
       set({ loading: false, errorMessage: error.message });
     }
   },
-  updateCheckout: async () => {
+  updateCheckout: async (checkoutId: string, input: any) => {
     set({ loading: true });
     try {
-      const checkout = await updateCheckout();
+      const checkout = await updateCheckout(checkoutId, input);
       set({ checkout, loading: false });
-    } catch (error) {
+    } catch (error: any) {
       set({ loading: false, errorMessage: error.message });
     }
   },
