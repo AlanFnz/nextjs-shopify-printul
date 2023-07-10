@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Providers } from '@/lib/providers';
 
 export const metadata = {
-  title: 'Mystery Pulse',
+  title: 'Morning Art Club',
   authors: [
     {
       name: 'AlanFnz',
