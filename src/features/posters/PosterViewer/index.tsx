@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useStore from '@/state/slices/shopifySlice/index.zustand';
+import useStore from '@/state/slices/shopifySlice';
 
 import { PosterContainer, PosterImage } from './PosterViewer.styles';
 import Dropdown from '@/components/ui/Dropdown';

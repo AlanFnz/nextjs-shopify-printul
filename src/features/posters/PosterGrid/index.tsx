@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Product } from 'shopify-buy';
 
-import useStore from '@/state/slices/shopifySlice/index.zustand';
+import useStore from '@/state/slices/shopifySlice';
 
 import Poster from '@/features/posters/Poster';
 import { columnsCountBreakPoints, masonryGutter } from './PosterGrid.styles';
