@@ -5,6 +5,7 @@ import { getClient } from './shopifySlice.utils';
 export const fetchPosters = async (): Promise<Product[]> => {
   const client = getClient();
   const products = await client.product.fetchAll();
+  console.log('zustand fetchPosters products = ', products)
   return products;
 };
 

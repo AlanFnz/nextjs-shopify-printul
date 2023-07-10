@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/state/store';
-import { cleanCurrentPoster } from '@/state/slices/shopifySlice';
+import useStore from '@/state/slices/shopifySlice/index.zustand';
 
 import { PosterContainer, PosterImage } from './PosterViewer.styles';
 import Dropdown from '@/components/ui/Dropdown';
@@ -23,21 +21,16 @@ interface Poster {
 }
 
 const PosterViewer = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const currentPoster = useSelector<RootState, Poster | null>(
-    (state) => state.shopify.currentPoster
-  );
+  const currentPoster = useStore((state) => state.currentPoster);
+  const cleanCurrentPoster = useStore((state) => state.cleanCurrentPoster);
+
   const { title, images } = currentPoster || {
     title: '',
     images: [{ src: '' }],
   };
 
-  const closeAction = () => {
-    dispatch(cleanCurrentPoster());
-  };
-
   return (
-    <DialogContent onClose={closeAction}>
+    <DialogContent onClose={cleanCurrentPoster}>
       <PosterContainer>
         <PosterImage
           alt={title}
