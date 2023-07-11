@@ -1,12 +1,11 @@
 import React from 'react';
 import { InfoSvg } from '@/constants';
-import { ButtonContainer } from './PosterInfoButton.styles';
 
 const PosterInfoButton = (props: any) => {
   return (
-    <ButtonContainer>
-      <InfoSvg style={{ display: 'flex', width: 24, height: 24, alignItems: 'center' }} />
-    </ButtonContainer>
+    <div className="absolute flex justify-center items-center cursor-pointer mt-8 w-10 h-10 right-32 rounded-md text-sm p-2 text-center bg-white">
+      <InfoSvg className="flex w-6 h-6 items-center" />
+    </div>
   );
 };
 

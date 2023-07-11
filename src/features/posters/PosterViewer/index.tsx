@@ -3,11 +3,11 @@
 import React from 'react';
 import useStore from '@/state/slices/shopifySlice';
 
-import { PosterContainer, PosterImage } from './PosterViewer.styles';
 import Dropdown from '@/components/ui/Dropdown';
 import AddToCartButton from '@/components/ui/AddToCartButton';
 import PosterInfoButton from '@/features/posters/PosterInfoButton';
 import { DialogContent, DialogFooter } from '@/components/ui/Dialog';
+import Image from 'next/image';
 
 interface Image {
   src: string;
@@ -31,15 +31,16 @@ const PosterViewer = () => {
 
   return (
     <DialogContent onClose={cleanCurrentPoster}>
-      <PosterContainer>
-        <PosterImage
+      <div className='relative h-full w-full'>
+        <Image
+          className='object-contain w-full h-full relative'
           alt={title}
           src={images[0].src}
           width={100}
           height={100}
           unoptimized={true}
         />
-      </PosterContainer>
+      </div>
       <DialogFooter>
         {currentPoster?.variants && (
           <Dropdown options={currentPoster.variants} />

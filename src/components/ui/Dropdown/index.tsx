@@ -1,11 +1,11 @@
 import React, { useReducer } from 'react';
-import {
-  DropdownContainer,
-  InputPlaceholder,
-  OptionsContainer,
-  Option,
-} from './Dropdown.styles';
 import { outsideDismiss } from '@/lib/utils';
+import {
+  dropdownContainerClasses,
+  inputPlaceholderClasses,
+  optionClasses,
+  optionsContainerClasses,
+} from './Dropdown.styles';
 
 interface DropdownOption {
   id: string;
@@ -24,7 +24,10 @@ interface DropdownState {
 
 const Dropdown: React.FC<DropdownProps> = ({ options }) => {
   const [dropdownState, setDropdownState] = useReducer(
-    (prev: DropdownState, next: Partial<DropdownState>) => ({ ...prev, ...next }),
+    (prev: DropdownState, next: Partial<DropdownState>) => ({
+      ...prev,
+      ...next,
+    }),
     {
       isOpen: false,
       selectedOptionTitle: '',
@@ -45,36 +48,41 @@ const Dropdown: React.FC<DropdownProps> = ({ options }) => {
   };
 
   return (
-    <DropdownContainer
-      isOpen={dropdownState.isOpen}
+    <div
+      className={dropdownContainerClasses}
       onClick={handleDropdownClick}
       onBlur={(e) => outsideDismiss(e, setDropdownState)}
-      role="combobox"
+      role='combobox'
       aria-expanded={dropdownState.isOpen}
-      aria-haspopup="listbox"
+      aria-haspopup='listbox'
     >
-      <OptionsContainer isOpen={dropdownState.isOpen} role="listbox">
+      <div
+        className={`${optionsContainerClasses} ${
+          dropdownState.isOpen ? 'opacity-100 visibility[visible]' : ''
+        }`}
+        role='listbox'
+      >
         {dropdownState.isOpen &&
           options &&
           options.map((option) => (
-            <Option
+            <div
+              className={optionClasses}
               onClick={() => handleOptionClick(option)}
               key={option.id}
-              role="option"
+              role='option'
             >
               {option.title}
-            </Option>
+            </div>
           ))}
-      </OptionsContainer>
-      <InputPlaceholder
-        type="text"
+      </div>
+      <input
+        type='text'
         readOnly
-        placeholder={
-          dropdownState.selectedOptionTitle || 'Select variant'
-        }
-        aria-readonly="true"
+        placeholder={dropdownState.selectedOptionTitle || 'Select variant'}
+        className={inputPlaceholderClasses}
+        aria-readonly='true'
       />
-    </DropdownContainer>
+    </div>
   );
 };
 
