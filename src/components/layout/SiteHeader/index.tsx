@@ -4,7 +4,7 @@ import { siteConfig } from '@/config/site';
 import { buttonVariants } from '@/components/ui/Button';
 import { MainNav } from '@/components/layout/MainNav';
 
-// TODO: will take the user when implemented
+// will take the user as prop when implemented
 interface SiteHeaderProps {
   user: null;
 }
