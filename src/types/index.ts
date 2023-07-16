@@ -54,6 +54,10 @@ export type Link = {
 };
 
 export interface CartLineItem extends Product {
+  name: string;
+  category: string | null;
+  subcategory: string | null;
   quantity?: number;
   storeName: string | null;
+  price: number;
 }
