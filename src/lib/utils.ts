@@ -5,8 +5,8 @@ type setOpenState = (state: { isOpen: boolean }) => void;
 
 export function outsideDismiss(
   e: React.FocusEvent<HTMLElement>,
-  setOpenState: (state: any) => void,
-  delay: number = 0
+  setOpenState: setOpenState,
+  delay: number = 0,
 ): void {
   const parent = e.currentTarget.parentNode;
   const isDescendant = parent
