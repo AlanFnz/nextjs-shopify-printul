@@ -6,6 +6,7 @@ import {
   optionClasses,
   optionsContainerClasses,
 } from './Dropdown.styles';
+import { Icons } from '@/components/icons';
 
 interface DropdownOption {
   id: string;
@@ -51,7 +52,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options }) => {
     <div
       className={dropdownContainerClasses}
       onClick={handleDropdownClick}
-      onBlur={(e) => outsideDismiss(e, setDropdownState)}
+      onBlur={(e) => outsideDismiss(e, setDropdownState, 100)}
       role='combobox'
       aria-expanded={dropdownState.isOpen}
       aria-haspopup='listbox'
@@ -75,6 +76,12 @@ const Dropdown: React.FC<DropdownProps> = ({ options }) => {
             </div>
           ))}
       </div>
+      <Icons.filledTriangle
+        className={`text-black absolute mt-3 right-4 h-4 w-4 z-10 transition-transform duration-300 ease-in-out transform-origin-center ${
+          dropdownState.isOpen ? 'rotate-180' : ''
+        }`}
+        aria-hidden='true'
+      />
       <input
         type='text'
         readOnly

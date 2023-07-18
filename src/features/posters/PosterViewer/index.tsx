@@ -45,8 +45,8 @@ const PosterViewer = () => {
         {currentPoster?.variants && (
           <Dropdown options={currentPoster.variants} />
         )}
-        <PosterInfoButton />
         <AddToCartButton />
+        <PosterInfoButton />
       </DialogFooter>
     </DialogContent>
   );
