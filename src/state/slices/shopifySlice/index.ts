@@ -88,9 +88,16 @@ const useStore = create<State>((set, get) => ({
   addToCart: async (variantId: string, quantity: number = 1) => {
     set({ loading: true });
     try {
-      const lineItems = [{ variantId, quantity }];
       const currentState = get();
-      const checkout = await addToCart(currentState.checkout.id, lineItems);
+      let checkout = currentState.checkout;
+
+      if (!checkout) {
+        checkout = await createCheckout();
+        set({ checkout });
+      }
+
+      const lineItems = [{ variantId, quantity }];
+      checkout = await addToCart(checkout.id, lineItems);
       set({ checkout, loading: false });
     } catch (error: any) {
       set({ loading: false, errorMessage: error.message });
