@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 import { Checkout, Product } from 'shopify-buy';
 import { getClient } from './shopifySlice.utils';
+import { LineItem } from '@/types';
 
 export const fetchPosters = async (): Promise<Product[]> => {
   const client = getClient();
   const products = await client.product.fetchAll();
-  console.log('zustand fetchPosters products = ', products)
+  console.log('zustand fetchPosters products = ', products);
   return products;
 };
 
@@ -24,6 +25,15 @@ export const updateCheckout = async (
   return checkout;
 };
 
+export const addToCart = async (
+  checkoutId: string,
+  lineItems: LineItem[]
+): Promise<Checkout> => {
+  const client = getClient();
+  const checkout = await client.checkout.addLineItems(checkoutId, lineItems);
+  return checkout;
+};
+
 type State = {
   posters: Product[];
   checkout: any;
@@ -39,7 +49,7 @@ type State = {
   updateCheckout: (checkoutId: string, input: any) => Promise<void>;
 };
 
-const useStore = create<State>((set) => ({
+const useStore = create<State>((set, get) => ({
   posters: [],
   checkout: null,
   currentPoster: null,
@@ -71,6 +81,17 @@ const useStore = create<State>((set) => ({
     set({ loading: true });
     try {
       const checkout = await updateCheckout(checkoutId, input);
+      set({ checkout, loading: false });
+    } catch (error: any) {
+      set({ loading: false, errorMessage: error.message });
+    }
+  },
+  addToCart: async (variantId: string, quantity: number = 1) => {
+    set({ loading: true });
+    try {
+      const lineItems = [{ variantId, quantity }];
+      const currentState = get();
+      const checkout = await addToCart(currentState.checkout.id, lineItems);
       set({ checkout, loading: false });
     } catch (error: any) {
       set({ loading: false, errorMessage: error.message });
