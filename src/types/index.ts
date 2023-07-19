@@ -61,3 +61,8 @@ export interface CartLineItem extends Product {
   storeName: string | null;
   price: number;
 }
+
+export type LineItem = {
+  variantId: string;
+  quantity: number;
+};
