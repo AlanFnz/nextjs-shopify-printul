@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 import { Checkout, CheckoutLineItemInput, Product } from 'shopify-buy';
 import { getClient } from './shopifySlice.utils';
 
@@ -47,61 +48,63 @@ type State = {
   updateCheckout: (checkoutId: string, input: any) => Promise<void>;
 };
 
-const useStore = create<State>((set, get) => ({
-  posters: [],
-  checkout: null,
-  currentPoster: null,
-  errorMessage: '',
-  loading: false,
-  setCurrentPoster: (poster) => set({ currentPoster: poster }),
-  cleanCurrentPoster: () => set({ currentPoster: null }),
-  cleanPosters: () => set({ posters: [] }),
-  cleanErrorMessage: () => set({ errorMessage: '' }),
-  fetchPosters: async () => {
-    set({ loading: true });
-    try {
-      const posters = await fetchPosters();
-      set({ posters, loading: false, errorMessage: '' });
-    } catch (error: any) {
-      set({ loading: false, errorMessage: error.message });
-    }
-  },
-  createCheckout: async () => {
-    set({ loading: true });
-    try {
-      const checkout = await createCheckout();
-      set({ checkout, loading: false });
-    } catch (error: any) {
-      set({ loading: false, errorMessage: error.message });
-    }
-  },
-  updateCheckout: async (checkoutId: string, input: any) => {
-    set({ loading: true });
-    try {
-      const checkout = await updateCheckout(checkoutId, input);
-      set({ checkout, loading: false });
-    } catch (error: any) {
-      set({ loading: false, errorMessage: error.message });
-    }
-  },
-  addToCart: async (variantId: string, quantity: number = 1) => {
-    set({ loading: true });
-    try {
-      const currentState = get();
-      let checkout = currentState.checkout;
-
-      if (!checkout) {
-        checkout = await createCheckout();
-        set({ checkout });
+const useStore = create<State>()(
+  devtools((set, get) => ({
+    posters: [],
+    checkout: null,
+    currentPoster: null,
+    errorMessage: '',
+    loading: false,
+    setCurrentPoster: (poster) => set({ currentPoster: poster }),
+    cleanCurrentPoster: () => set({ currentPoster: null }),
+    cleanPosters: () => set({ posters: [] }),
+    cleanErrorMessage: () => set({ errorMessage: '' }),
+    fetchPosters: async () => {
+      set({ loading: true });
+      try {
+        const posters = await fetchPosters();
+        set({ posters, loading: false, errorMessage: '' });
+      } catch (error: any) {
+        set({ loading: false, errorMessage: error.message });
       }
+    },
+    createCheckout: async () => {
+      set({ loading: true });
+      try {
+        const checkout = await createCheckout();
+        set({ checkout, loading: false });
+      } catch (error: any) {
+        set({ loading: false, errorMessage: error.message });
+      }
+    },
+    updateCheckout: async (checkoutId: string, input: any) => {
+      set({ loading: true });
+      try {
+        const checkout = await updateCheckout(checkoutId, input);
+        set({ checkout, loading: false });
+      } catch (error: any) {
+        set({ loading: false, errorMessage: error.message });
+      }
+    },
+    addToCart: async (variantId: string, quantity: number = 1) => {
+      set({ loading: true });
+      try {
+        const currentState = get();
+        let checkout = currentState.checkout;
 
-      const lineItems = [{ variantId, quantity }];
-      checkout = await addToCart(checkout.id, lineItems);
-      set({ checkout, loading: false });
-    } catch (error: any) {
-      set({ loading: false, errorMessage: error.message });
-    }
-  },
-}));
+        if (!checkout) {
+          checkout = await createCheckout();
+          set({ checkout });
+        }
+
+        const lineItems = [{ variantId, quantity }];
+        checkout = await addToCart(checkout.id, lineItems);
+        set({ checkout, loading: false });
+      } catch (error: any) {
+        set({ loading: false, errorMessage: error.message });
+      }
+    },
+  }))
+);
 
 export default useStore;
