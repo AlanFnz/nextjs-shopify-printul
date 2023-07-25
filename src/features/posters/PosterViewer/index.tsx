@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import useStore from '@/state/slices/shopifySlice';
 
-import Dropdown from '@/components/ui/Dropdown';
+import Dropdown, { DropdownOption } from '@/components/ui/Dropdown';
 import AddToCartButton from '@/components/ui/AddToCartButton';
 import PosterInfoButton from '@/features/posters/PosterInfoButton';
 import { DialogContent, DialogFooter } from '@/components/ui/Dialog';
@@ -22,11 +22,23 @@ interface Poster {
 
 const PosterViewer = () => {
   const currentPoster = useStore((state) => state.currentPoster);
+  const checkout = useStore((state) => state.checkout);
+  const { addToCart } = useStore();
   const cleanCurrentPoster = useStore((state) => state.cleanCurrentPoster);
+  const [selectedVariant, setSelectedVariant] = useState<DropdownOption | null>(
+    null
+  );
 
   const { title, images } = currentPoster || {
     title: '',
     images: [{ src: '' }],
+    variants: [],
+  };
+
+  const handleAddToCart = () => {
+    if (selectedVariant) {
+      addToCart(selectedVariant.id, 1);
+    }
   };
 
   return (
@@ -43,9 +55,13 @@ const PosterViewer = () => {
       </div>
       <DialogFooter>
         {currentPoster?.variants && (
-          <Dropdown options={currentPoster.variants} />
+          <Dropdown
+            options={currentPoster.variants}
+            selectedOption={selectedVariant}
+            onSelectOption={setSelectedVariant}
+          />
         )}
-        <AddToCartButton />
+        <AddToCartButton onClick={handleAddToCart} />
         <PosterInfoButton />
       </DialogFooter>
     </DialogContent>

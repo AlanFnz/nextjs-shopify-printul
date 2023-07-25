@@ -46,6 +46,7 @@ type State = {
   fetchPosters: () => Promise<void>;
   createCheckout: () => Promise<void>;
   updateCheckout: (checkoutId: string, input: any) => Promise<void>;
+  addToCart: (variantId: string, quantity: number) => Promise<void>;
 };
 
 const useStore = create<State>()(
