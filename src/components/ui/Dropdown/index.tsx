@@ -8,13 +8,15 @@ import {
 } from './Dropdown.styles';
 import { Icons } from '@/components/icons';
 
-interface DropdownOption {
+export interface DropdownOption {
   id: string;
   title: string;
 }
 
 interface DropdownProps {
   options: DropdownOption[];
+  selectedOption: DropdownOption | null;
+  onSelectOption: (option: DropdownOption) => void;
 }
 
 interface DropdownState {
@@ -23,7 +25,11 @@ interface DropdownState {
   selectedOptionId: string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ options }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  options,
+  selectedOption,
+  onSelectOption,
+}) => {
   const [dropdownState, setDropdownState] = useReducer(
     (prev: DropdownState, next: Partial<DropdownState>) => ({
       ...prev,
@@ -41,11 +47,8 @@ const Dropdown: React.FC<DropdownProps> = ({ options }) => {
   };
 
   const handleOptionClick = (option: DropdownOption) => {
-    setDropdownState({
-      isOpen: false,
-      selectedOptionTitle: option.title,
-      selectedOptionId: option.id,
-    });
+    setDropdownState({ isOpen: false });
+    onSelectOption(option);
   };
 
   return (
@@ -85,7 +88,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options }) => {
       <input
         type='text'
         readOnly
-        placeholder={dropdownState.selectedOptionTitle || 'Select variant'}
+        placeholder={selectedOption ? selectedOption.title : 'Select variant'}
         className={inputPlaceholderClasses}
         aria-readonly='true'
       />
