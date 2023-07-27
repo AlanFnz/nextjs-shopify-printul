@@ -13,16 +13,8 @@ interface Image {
   src: string;
 }
 
-interface Poster {
-  title: string;
-  images: Image[];
-  id?: string;
-  variants?: any[];
-}
-
 const PosterViewer = () => {
   const currentPoster = useStore((state) => state.currentPoster);
-  const checkout = useStore((state) => state.checkout);
   const { addToCart } = useStore();
   const cleanCurrentPoster = useStore((state) => state.cleanCurrentPoster);
   const [selectedVariant, setSelectedVariant] = useState<DropdownOption | null>(
