@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 
 import { formatPrice } from '@/lib/utils';
@@ -15,10 +17,17 @@ import {
 } from '@/components/ui/Sheet';
 import { UpdateCart } from '@/components/cart/UpdateCart';
 import { Icons } from '@/components/icons';
-import { CartLineItem } from '@/types'
+import { CartLineItem } from '@/types';
+import useStore from '@/state/slices/shopifySlice';
+import { useCallback } from 'react';
 
-export async function CartSheet() {
-  const cartLineItems: CartLineItem[] = [];
+export function CartSheet() {
+  const selectCheckout = useCallback(
+    (state: { checkout: any }) => state.checkout,
+    []
+  );
+  const checkout = useStore(selectCheckout);
+  const cartLineItems: CartLineItem[] = checkout?.lineItems || [];
 
   const itemCount = cartLineItems.reduce(
     (total, item) => total + Number(item.quantity),
