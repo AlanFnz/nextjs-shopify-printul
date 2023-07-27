@@ -21,6 +21,7 @@ import { CartLineItem } from '@/types';
 import useStore from '@/state/slices/shopifySlice';
 import { useCallback } from 'react';
 
+// TODO: fix quantity and price values
 export function CartSheet() {
   const selectCheckout = useCallback(
     (state: { checkout: any }) => state.checkout,

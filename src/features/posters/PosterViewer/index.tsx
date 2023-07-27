@@ -30,6 +30,7 @@ const PosterViewer = () => {
   };
 
   const handleAddToCart = () => {
+    // TODO: add ui alert if no variant is selected
     if (selectedVariant) {
       addToCart(selectedVariant.id, 1);
     }
