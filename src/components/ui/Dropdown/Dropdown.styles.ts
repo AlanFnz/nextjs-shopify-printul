@@ -1,4 +1,4 @@
-export const dropdownContainerClasses = `mt-8 w-36 before:[content block w-2 bg-gray-700 z-10 transform transition-all duration-350] after:[content block w-2 h-10 bg-gray-700 z-10 transform transition-all duration-350]`;
+export const dropdownContainerClasses = `w-36 before:[content block w-2 bg-gray-700 z-10 transform transition-all duration-350] after:[content block w-2 h-10 bg-gray-700 z-10 transform transition-all duration-350]`;
 
 export const optionsContainerClasses = `absolute bottom-12 w-full text-gray-700 bg-white rounded shadow-2xl opacity-0 visibility[hidden] transition-all duration-200 first:rounded-t last:rounded-b`;
 
