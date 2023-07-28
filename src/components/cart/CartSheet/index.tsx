@@ -21,7 +21,6 @@ import { CartLineItem } from '@/types';
 import useStore from '@/state/slices/shopifySlice';
 import { useCallback } from 'react';
 
-// TODO: fix quantity and price values
 export function CartSheet() {
   const selectCheckout = useCallback(
     (state: { checkout: any }) => state.checkout,
@@ -36,7 +35,7 @@ export function CartSheet() {
   );
 
   const cartTotal = cartLineItems.reduce(
-    (total, item) => total + Number(item.quantity) * Number(item.price),
+    (total, item) => total + Number(item.quantity) * Number(item.variant.price.amount),
     0
   );
 
@@ -74,13 +73,13 @@ export function CartSheet() {
                     <div key={item.id} className='space-y-3'>
                       <div className='flex items-center space-x-4'>
                         <div className='relative h-16 w-16 overflow-hidden rounded'>
-                          {item?.images?.length ? (
+                          {item?.variant?.image.src ? (
                             <Image
                               src={
-                                item.images[0]?.url ??
+                                item?.variant?.image.src ??
                                 '/images/product-placeholder.webp'
                               }
-                              alt={item.images[0]?.altText ?? item.name}
+                              alt={item?.variant?.image.altText ?? item.title}
                               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                               fill
                               className='absolute object-cover'
@@ -96,18 +95,18 @@ export function CartSheet() {
                           )}
                         </div>
                         <div className='flex flex-1 flex-col gap-1 self-start text-sm'>
-                          <span className='line-clamp-1'>{item.name}</span>
+                          <span className='line-clamp-1'>{item.title}</span>
                           <span className='line-clamp-1 text-muted-foreground'>
-                            {formatPrice(item.price)} x {item.quantity} ={' '}
+                            {formatPrice(item.variant.price.amount)} x {item.quantity} ={' '}
                             {formatPrice(
                               (
-                                Number(item.price) * Number(item.quantity)
+                                Number(item.variant.price.amount) * Number(item.quantity)
                               ).toFixed(2)
                             )}
                           </span>
                           <span className='line-clamp-1 text-xs capitalize text-muted-foreground'>
-                            {`${item.category} ${
-                              item.subcategory ? `/ ${item.subcategory}` : ''
+                            {`${item.variant.title} ${
+                              item.variant.weight && item.variant.weightUnit ? `/ ${item.variant.weight} ${item.variant.weightUnit}` : ''
                             }`}
                           </span>
                         </div>
