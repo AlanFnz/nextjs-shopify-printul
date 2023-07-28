@@ -32,7 +32,7 @@
     "react-dom": "18.2.0",
     "react-redux": "^8.1.0",
     "react-responsive-masonry": "^2.1.7",
-    "shopify-buy": "^2.19.0",
+    "shopify-buy": "^2.20.1",
     "sonner": "^0.6.2",
     "styled-components": "^5.3.10",
     "tailwind-merge": "^1.13.2",
