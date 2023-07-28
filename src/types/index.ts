@@ -1,5 +1,5 @@
 import { Icons } from '@/components/icons';
-import { Product } from 'shopify-buy';
+import { Product, ProductVariant } from 'shopify-buy';
 
 export type Poster = {
   id: number;
@@ -60,4 +60,5 @@ export interface CartLineItem extends Product {
   quantity?: number;
   storeName: string | null;
   price: number;
+  variant: ProductVariant;
 }
