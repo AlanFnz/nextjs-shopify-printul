@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { Checkout, CheckoutLineItemInput, Product } from 'shopify-buy';
+import {
+  Checkout,
+  CheckoutLineItem,
+  CheckoutLineItemInput,
+  Product,
+} from 'shopify-buy';
 import { getClient } from './shopifySlice.utils';
 
 export const fetchPosters = async (): Promise<Product[]> => {
@@ -33,9 +38,33 @@ export const addToCart = async (
   return checkout;
 };
 
+export const removeFromCart = async (
+  checkoutId: string,
+  lineItemIdsToRemove: string[]
+): Promise<Checkout> => {
+  const client = getClient();
+  const checkout = await client.checkout.removeLineItems(
+    checkoutId,
+    lineItemIdsToRemove
+  );
+  return checkout;
+};
+
+export const updateCart = async (
+  checkoutId: string,
+  lineItemsToUpdate: CheckoutLineItemInput[]
+): Promise<Checkout> => {
+  const client = getClient();
+  const checkout = await client.checkout.updateLineItems(
+    checkoutId,
+    lineItemsToUpdate
+  );
+  return checkout;
+};
+
 type State = {
   posters: Product[];
-  checkout: any;
+  checkout: Checkout | null; // Use the appropriate type if available
   currentPoster: Product | null;
   errorMessage: string;
   loading: boolean;
@@ -47,6 +76,8 @@ type State = {
   createCheckout: () => Promise<void>;
   updateCheckout: (checkoutId: string, input: any) => Promise<void>;
   addToCart: (variantId: string, quantity: number) => Promise<void>;
+  removeFromCart: (lineItemId: string) => Promise<void>;
+  updateCart: (variantId: string, quantity: number) => Promise<void>;
 };
 
 const useStore = create<State>()(
@@ -100,6 +131,52 @@ const useStore = create<State>()(
 
         const lineItems = [{ variantId, quantity }];
         checkout = await addToCart(checkout.id, lineItems);
+        set({ checkout, loading: false });
+      } catch (error: any) {
+        set({ loading: false, errorMessage: error.message });
+      }
+    },
+    removeFromCart: async (lineItemId: string) => {
+      set({ loading: true });
+      try {
+        const currentState = get();
+        let checkout = currentState.checkout;
+
+        if (!checkout) {
+          set({ loading: false, errorMessage: 'No checkout available' });
+          return;
+        }
+
+        checkout = await removeFromCart(checkout.id, [lineItemId]);
+        set({ checkout, loading: false });
+      } catch (error: any) {
+        set({ loading: false, errorMessage: error.message });
+      }
+    },
+    updateCart: async (variantId: string, quantity: number) => {
+      set({ loading: true });
+      try {
+        const currentState = get();
+        let checkout = currentState.checkout;
+
+        if (!checkout) {
+          set({ loading: false, errorMessage: 'No checkout available' });
+          return;
+        }
+
+        const lineItemsToUpdate = checkout.lineItems
+          .map((item: CheckoutLineItem) => {
+            if (item.variant && item.variant.id === variantId) {
+              return { variantId: item.variant.id, quantity };
+            }
+            return {
+              variantId: item.variant?.id || '',
+              quantity: item.quantity,
+            };
+          })
+          .filter((item) => item.variantId !== ''); // filter out items where variantId could not be determined
+
+        checkout = await updateCart(checkout.id, lineItemsToUpdate);
         set({ checkout, loading: false });
       } catch (error: any) {
         set({ loading: false, errorMessage: error.message });
