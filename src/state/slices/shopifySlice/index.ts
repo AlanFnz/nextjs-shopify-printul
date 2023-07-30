@@ -167,14 +167,15 @@ const useStore = create<State>()(
         const lineItemsToUpdate = checkout.lineItems
           .map((item: CheckoutLineItem) => {
             if (item.variant && item.variant.id === variantId) {
-              return { variantId: item.variant.id, quantity };
+              return { id: item.id, variantId: item.variant.id, quantity };
             }
             return {
+              id: item.id,
               variantId: item.variant?.id || '',
               quantity: item.quantity,
             };
           })
-          .filter((item) => item.variantId !== ''); // filter out items where variantId could not be determined
+          .filter((item) => item.variantId !== '');
 
         checkout = await updateCart(checkout.id, lineItemsToUpdate);
         set({ checkout, loading: false });
