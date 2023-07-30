@@ -20,8 +20,10 @@ import { Icons } from '@/components/icons';
 import { CartLineItem } from '@/types';
 import useStore from '@/state/slices/shopifySlice';
 import { useCallback } from 'react';
+import { Spinner } from '@/components/ui/Spinner';
 
 export function CartSheet() {
+  const isLoading = useStore((state) => state.loading);
   const selectCheckout = useCallback(
     (state: { checkout: any }) => state.checkout,
     []
@@ -35,7 +37,8 @@ export function CartSheet() {
   );
 
   const cartTotal = cartLineItems.reduce(
-    (total, item) => total + Number(item.quantity) * Number(item.variant.price.amount),
+    (total, item) =>
+      total + Number(item.quantity) * Number(item.variant.price.amount),
     0
   );
 
@@ -66,7 +69,11 @@ export function CartSheet() {
         <Separator />
         {itemCount > 0 ? (
           <>
-            <div className='flex flex-1 flex-col gap-5 overflow-hidden'>
+            <div
+              className={`flex flex-1 flex-col gap-5 overflow-hidden ${
+                isLoading ? 'filter blur-sm' : ''
+              }`}
+            >
               <ScrollArea className='h-full'>
                 <div className='flex flex-col gap-5 pr-6'>
                   {cartLineItems.map((item) => (
@@ -97,16 +104,20 @@ export function CartSheet() {
                         <div className='flex flex-1 flex-col gap-1 self-start text-sm'>
                           <span className='line-clamp-1'>{item.title}</span>
                           <span className='line-clamp-1 text-muted-foreground'>
-                            {formatPrice(item.variant.price.amount)} x {item.quantity} ={' '}
+                            {formatPrice(item.variant.price.amount)} x{' '}
+                            {item.quantity} ={' '}
                             {formatPrice(
                               (
-                                Number(item.variant.price.amount) * Number(item.quantity)
+                                Number(item.variant.price.amount) *
+                                Number(item.quantity)
                               ).toFixed(2)
                             )}
                           </span>
                           <span className='line-clamp-1 text-xs capitalize text-muted-foreground'>
                             {`${item.variant.title} ${
-                              item.variant.weight && item.variant.weightUnit ? `/ ${item.variant.weight} ${item.variant.weightUnit}` : ''
+                              item.variant.weight && item.variant.weightUnit
+                                ? `/ ${item.variant.weight} ${item.variant.weightUnit}`
+                                : ''
                             }`}
                           </span>
                         </div>
@@ -118,7 +129,11 @@ export function CartSheet() {
                 </div>
               </ScrollArea>
             </div>
-            <div className='grid gap-1.5 pr-6 text-sm'>
+            <div
+              className={`grid gap-1.5 pr-6 text-sm ${
+                isLoading ? 'filter blur-sm' : ''
+              }`}
+            >
               <Separator className='mb-2' />
               <div className='flex'>
                 <span className='flex-1'>Subtotal</span>
@@ -159,6 +174,11 @@ export function CartSheet() {
             </span>
           </div>
         )}
+        {isLoading ? (
+          <div className='absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center'>
+            <Spinner />
+          </div>
+        ) : null}
       </SheetContent>
     </Sheet>
   );
