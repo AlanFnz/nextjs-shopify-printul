@@ -14,6 +14,7 @@ export interface DropdownOption {
 }
 
 interface DropdownProps {
+  classNames: string;
   options: DropdownOption[];
   selectedOption: DropdownOption | null;
   onSelectOption: (option: DropdownOption) => void;
@@ -26,6 +27,7 @@ interface DropdownState {
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
+  classNames,
   options,
   selectedOption,
   onSelectOption,
@@ -53,7 +55,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div
-      className={dropdownContainerClasses}
+      className={`${dropdownContainerClasses} ${classNames}`}
       onClick={handleDropdownClick}
       onBlur={(e) => outsideDismiss(e, setDropdownState, 100)}
       role='combobox'
