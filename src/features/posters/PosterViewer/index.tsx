@@ -19,6 +19,8 @@ const PosterViewer = () => {
   const currentPoster = useStore((state) => state.currentPoster);
   const { addToCart } = useStore();
   const cleanCurrentPoster = useStore((state) => state.cleanCurrentPoster);
+  const [variantError, setVariantError] = useState(false);
+  const [errorAnimationKey, setErrorAnimationKey] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState<DropdownOption | null>(
     null
   );
@@ -36,6 +38,18 @@ const PosterViewer = () => {
     }
   };
 
+  const handleSelectVariant = (option: DropdownOption) => {
+    setVariantError(false);
+    setSelectedVariant(option);
+  };
+
+  const handleClose = () => {
+    cleanCurrentPoster();
+    setVariantError(false);
+    setErrorAnimationKey(0);
+    setSelectedVariant(null);
+  };
+
   return (
     <DialogContent onClose={cleanCurrentPoster}>
       <div className='relative h-full w-full'>
@@ -50,9 +64,15 @@ const PosterViewer = () => {
       <DialogFooter>
         {currentPoster?.variants && (
           <Dropdown
+            key={errorAnimationKey}
+            classNames={`${
+              variantError
+                ? 'animate-shake-once'
+                : ''
+            }`}
             options={currentPoster.variants}
             selectedOption={selectedVariant}
-            onSelectOption={setSelectedVariant}
+            onSelectOption={handleSelectVariant}
           />
         )}
         <AddToCartButton onClick={handleAddToCart} />
