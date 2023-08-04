@@ -25,19 +25,16 @@ const PosterViewer = () => {
     null
   );
 
-  const { title, images } = currentPoster || {
-    title: '',
-    images: [{ src: '' }],
-    variants: [],
-  };
+  const title = currentPoster?.title || '';
+  const images = currentPoster?.images || [{ src: '' }];
+  const variants = currentPoster?.variants || [];
 
   const handleAddToCart = () => {
-    setVariantError(false);
-    if (!selectedVariant) {
-      setVariantError(true);
-      setErrorAnimationKey((prevKey) => prevKey + 1);
-    } else {
+    if (selectedVariant) {
       addToCart(selectedVariant.id, 1);
+    } else {
+      !variantError && setVariantError(true);
+      setErrorAnimationKey((prevKey) => prevKey + 1);
     }
   };
 
@@ -68,11 +65,7 @@ const PosterViewer = () => {
         {currentPoster?.variants && (
           <Dropdown
             key={errorAnimationKey}
-            classNames={`${
-              variantError
-                ? 'animate-shake-once'
-                : ''
-            }`}
+            classNames={`${variantError ? 'animate-shake-once' : ''}`}
             options={currentPoster.variants}
             selectedOption={selectedVariant}
             onSelectOption={handleSelectVariant}
