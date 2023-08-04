@@ -32,8 +32,11 @@ const PosterViewer = () => {
   };
 
   const handleAddToCart = () => {
-    // TODO: add ui alert if no variant is selected
-    if (selectedVariant) {
+    setVariantError(false);
+    if (!selectedVariant) {
+      setVariantError(true);
+      setErrorAnimationKey((prevKey) => prevKey + 1);
+    } else {
       addToCart(selectedVariant.id, 1);
     }
   };
@@ -51,7 +54,7 @@ const PosterViewer = () => {
   };
 
   return (
-    <DialogContent onClose={cleanCurrentPoster}>
+    <DialogContent onClose={handleClose}>
       <div className='relative h-full w-full'>
         <Image
           className='object-contain w-full h-full relative'
