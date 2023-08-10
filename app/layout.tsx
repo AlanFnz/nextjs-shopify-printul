@@ -4,6 +4,7 @@ import { fontMono, fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
 import { Providers } from '@/lib/providers';
+import { Toaster } from '@/components/ui/Toaster';
 
 export const metadata = {
   title: 'Morning Art Club',
@@ -42,6 +43,7 @@ export default function RootLayout({
         )}
       >
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );
