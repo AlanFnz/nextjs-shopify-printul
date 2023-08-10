@@ -21,6 +21,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
   const handleAddItem = () => {
     startTransition(async () => {
       await updateCart(cartLineItem.variant.id, quantity + 1);
+      toast.success('Added successfully');
     });
   };
 
@@ -28,6 +29,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
     startTransition(async () => {
       if (quantity > 1) {
         await updateCart(cartLineItem.variant.id, quantity - 1);
+        toast.success('Removed successfully');
       }
     });
   };
@@ -35,6 +37,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
   const handleDeleteItem = () => {
     startTransition(async () => {
       await removeFromCart(cartLineItem.id);
+      toast.success('Removed successfully');
     });
   };
 
@@ -42,6 +45,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
     startTransition(async () => {
       const newQuantity = Number(e.target.value);
       await updateCart(cartLineItem.variant.id, newQuantity);
+      toast.success('Updated successfully');
     });
   };
 

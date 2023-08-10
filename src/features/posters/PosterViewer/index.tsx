@@ -8,6 +8,7 @@ import AddToCartButton from '@/components/ui/AddToCartButton';
 import PosterInfoButton from '@/features/posters/PosterInfoButton';
 import { DialogContent, DialogFooter } from '@/components/ui/Dialog';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 const IMAGE_SIZE = 600;
 
@@ -29,12 +30,14 @@ const PosterViewer = () => {
   const images = currentPoster?.images || [{ src: '' }];
   const variants = currentPoster?.variants || [];
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (selectedVariant) {
-      addToCart(selectedVariant.id, 1);
+      await addToCart(selectedVariant.id, 1);
+      toast.success('Added successfully');
     } else {
       !variantError && setVariantError(true);
       setErrorAnimationKey((prevKey) => prevKey + 1);
+      toast.error('Please select a variant');
     }
   };
 
