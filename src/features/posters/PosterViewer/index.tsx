@@ -20,8 +20,11 @@ const PosterViewer = () => {
   const currentPoster = useStore((state) => state.currentPoster);
   const { addToCart } = useStore();
   const cleanCurrentPoster = useStore((state) => state.cleanCurrentPoster);
+
+  const [showDescription, setShowDescription] = useState(false);
   const [variantError, setVariantError] = useState(false);
   const [errorAnimationKey, setErrorAnimationKey] = useState(0);
+
   const [selectedVariant, setSelectedVariant] = useState<DropdownOption | null>(
     null
   );
@@ -57,12 +60,19 @@ const PosterViewer = () => {
     <DialogContent onClose={handleClose}>
       <div className='relative h-full w-full'>
         <Image
-          className='object-contain w-full h-full relative'
+          className={`object-contain w-full h-full relative ${
+            showDescription ? 'blur' : ''
+          }`}
           alt={title}
           src={images[0].src}
           width={IMAGE_SIZE}
           height={IMAGE_SIZE}
         />
+        {showDescription && (
+          <div className='description-overlay'>
+            <p className='description-text'>{currentPoster?.description}</p>
+          </div>
+        )}
       </div>
       <DialogFooter>
         {currentPoster?.variants && (
@@ -75,7 +85,9 @@ const PosterViewer = () => {
           />
         )}
         <AddToCartButton onClick={handleAddToCart} />
-        <PosterInfoButton />
+        <PosterInfoButton
+          onClick={() => setShowDescription(!showDescription)}
+        />
       </DialogFooter>
     </DialogContent>
   );
