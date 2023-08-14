@@ -114,7 +114,7 @@
 }
 
 .blur {
-  filter: blur(8px);
+  filter: blur(5px);
   transition: filter 0.3s;
 }
 
@@ -122,16 +122,27 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.7); /* semi-transparent white */
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  background-color: rgba(255, 255, 255, 0.7);
   padding: 20px;
   border-radius: 10px;
-  width: 80%; 
+  width: 80%;
   height: auto;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.show-description .description-overlay {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
 }
 
 .description-text {
@@ -139,4 +150,3 @@
   font-size: 16px;
   text-align: center;
 }
-

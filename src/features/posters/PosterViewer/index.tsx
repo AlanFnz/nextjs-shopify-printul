@@ -58,7 +58,11 @@ const PosterViewer = () => {
 
   return (
     <DialogContent onClose={handleClose}>
-      <div className='relative h-full w-full'>
+      <div
+        className={`relative h-full w-full ${
+          showDescription ? 'show-description' : ''
+        }`}
+      >
         <Image
           className={`object-contain w-full h-full relative ${
             showDescription ? 'blur' : ''
@@ -68,11 +72,9 @@ const PosterViewer = () => {
           width={IMAGE_SIZE}
           height={IMAGE_SIZE}
         />
-        {showDescription && (
-          <div className='description-overlay'>
-            <p className='description-text'>{currentPoster?.description}</p>
-          </div>
-        )}
+        <div className='description-overlay'>
+          <p className='description-text'>{currentPoster?.description}</p>
+        </div>
       </div>
       <DialogFooter>
         {currentPoster?.variants && (
