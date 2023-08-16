@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { formatPrice } from '@/lib/utils';
@@ -19,10 +20,10 @@ import { UpdateCart } from '@/components/cart/UpdateCart';
 import { Icons } from '@/components/icons';
 import { CartLineItem } from '@/types';
 import useStore from '@/state/slices/shopifySlice';
-import { useCallback } from 'react';
 import { Spinner } from '@/components/ui/Spinner';
 
 export function CartSheet() {
+  const [displayedCount, setDisplayedCount] = useState(0);
   const isLoading = useStore((state) => state.loading);
   const selectCheckout = useCallback(
     (state: { checkout: any }) => state.checkout,
@@ -42,6 +43,10 @@ export function CartSheet() {
     0
   );
 
+  useEffect(() => {
+    setDisplayedCount(itemCount);
+  }, [itemCount]);
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -51,12 +56,12 @@ export function CartSheet() {
           size='icon'
           className='relative'
         >
-          {itemCount > 0 && (
+          {displayedCount > 0 && (
             <Badge
               variant='secondary'
               className='absolute -right-2 -top-2 h-6 w-6 rounded-full p-2'
             >
-              {itemCount}
+              {displayedCount}
             </Badge>
           )}
           <Icons.cart className='h-4 w-4' aria-hidden='true' />
@@ -64,10 +69,12 @@ export function CartSheet() {
       </SheetTrigger>
       <SheetContent className='flex w-full flex-col pr-0 sm:max-w-lg'>
         <SheetHeader className='px-1'>
-          <SheetTitle>Cart {itemCount > 0 && `(${itemCount})`}</SheetTitle>
+          <SheetTitle>
+            Cart {displayedCount > 0 && `(${displayedCount})`}
+          </SheetTitle>
         </SheetHeader>
         <Separator />
-        {itemCount > 0 ? (
+        {displayedCount > 0 ? (
           <>
             <div
               className={`flex flex-1 flex-col gap-5 overflow-hidden ${
