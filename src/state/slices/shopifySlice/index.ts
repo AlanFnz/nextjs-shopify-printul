@@ -6,7 +6,9 @@ import {
   CheckoutLineItemInput,
   Product,
 } from 'shopify-buy';
-import { getClient } from './shopifySlice.utils';
+import { getClient, saveCheckoutToLocalStorage } from './shopifySlice.utils';
+
+const initialCheckout = JSON.parse(localStorage.getItem('checkout') || 'null');
 
 export const fetchPosters = async (): Promise<Product[]> => {
   const client = getClient();
@@ -83,7 +85,7 @@ type State = {
 const useStore = create<State>()(
   devtools((set, get) => ({
     posters: [],
-    checkout: null,
+    checkout: initialCheckout,
     currentPoster: null,
     errorMessage: '',
     loading: false,
@@ -104,6 +106,7 @@ const useStore = create<State>()(
       set({ loading: true });
       try {
         const checkout = await createCheckout();
+        saveCheckoutToLocalStorage(checkout);
         set({ checkout, loading: false });
       } catch (error: any) {
         set({ loading: false, errorMessage: error.message });
@@ -113,6 +116,7 @@ const useStore = create<State>()(
       set({ loading: true });
       try {
         const checkout = await updateCheckout(checkoutId, input);
+        saveCheckoutToLocalStorage(checkout);
         set({ checkout, loading: false });
       } catch (error: any) {
         set({ loading: false, errorMessage: error.message });
@@ -131,6 +135,7 @@ const useStore = create<State>()(
 
         const lineItems = [{ variantId, quantity }];
         checkout = await addToCart(checkout.id, lineItems);
+        saveCheckoutToLocalStorage(checkout);
         set({ checkout, loading: false });
       } catch (error: any) {
         set({ loading: false, errorMessage: error.message });
@@ -148,6 +153,7 @@ const useStore = create<State>()(
         }
 
         checkout = await removeFromCart(checkout.id, [lineItemId]);
+        saveCheckoutToLocalStorage(checkout);
         set({ checkout, loading: false });
       } catch (error: any) {
         set({ loading: false, errorMessage: error.message });
@@ -178,6 +184,7 @@ const useStore = create<State>()(
           .filter((item) => item.variantId !== '');
 
         checkout = await updateCart(checkout.id, lineItemsToUpdate);
+        saveCheckoutToLocalStorage(checkout);
         set({ checkout, loading: false });
       } catch (error: any) {
         set({ loading: false, errorMessage: error.message });
