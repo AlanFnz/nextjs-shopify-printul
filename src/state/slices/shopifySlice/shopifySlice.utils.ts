@@ -1,4 +1,4 @@
-import Client from 'shopify-buy';
+import Client, { Checkout } from 'shopify-buy';
 import { InitialStateType } from './shopifySlice.types';
 
 let client: Client | null = null;
@@ -18,3 +18,7 @@ export function getClient() {
 export function setLoading(state: InitialStateType, loading: boolean) {
   state.loading = loading;
 }
+
+export const saveCheckoutToLocalStorage = (checkout: Checkout) => {
+  localStorage.setItem('checkout', JSON.stringify(checkout));
+};
