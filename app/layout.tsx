@@ -7,7 +7,7 @@ import { Providers } from '@/lib/providers';
 import { Toaster } from '@/components/ui/Toaster';
 
 export const metadata = {
-  title: 'Metallic Monks',
+  title: 'nawwwal',
   authors: [
     {
       name: 'AlanFnz',
