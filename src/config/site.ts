@@ -3,7 +3,7 @@ import type { MainNavItem } from '@/types';
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: 'fante',
+  name: 'ixtlandep',
   description: 'Posters, music and literature',
   url: 'https://#',
   ogImage: 'https://#',
