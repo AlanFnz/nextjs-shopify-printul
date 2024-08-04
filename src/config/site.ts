@@ -3,15 +3,15 @@ import type { MainNavItem } from '@/types';
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: 'ixtlandep',
-  description: 'Posters, music and literature',
+  name: 'next-shopify-printful',
+  description: 'Posters on demand',
   url: 'https://#',
   ogImage: 'https://#',
   mainNav: [
     {
       title: 'Home',
     },
-    {
+/*     {
       title: 'Posters',
       href: '/posters',
       description: 'Posters',
@@ -25,7 +25,7 @@ export const siteConfig = {
       title: 'Contact',
       href: '/contact',
       description: 'Get in touch',
-    },
+    }, */
   ] satisfies MainNavItem[],
   links: {
     instagram: 'https://instagram.com/',
