@@ -7,7 +7,7 @@ import { Providers } from '@/lib/providers';
 import { Toaster } from '@/components/ui/Toaster';
 
 export const metadata = {
-  title: 'next-shopify-printful',
+  title: 'nextjs-shopify-printful',
   authors: [
     {
       name: 'AlanFnz',
