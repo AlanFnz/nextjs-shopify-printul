@@ -34,7 +34,7 @@ export const PosterViewer = () => {
   );
 
   const title = currentPoster?.title || '';
-  const images = currentPoster?.images || [{ src: '' }];
+  const images = currentPoster?.images;
   const variants = currentPoster?.variants || [];
 
   const handleAddToCart = async () => {
@@ -70,15 +70,17 @@ export const PosterViewer = () => {
         <VisuallyHidden>
           <DialogTitle>Poster viewer</DialogTitle>
         </VisuallyHidden>
-        <Image
-          className={`object-contain w-full h-full relative ${
-            showDescription ? 'blur' : ''
-          }`}
-          alt={title}
-          src={images[0].src}
-          width={IMAGE_SIZE}
-          height={IMAGE_SIZE}
-        />
+        {images?.[0] && (
+          <Image
+            className={`object-contain w-full h-full relative ${
+              showDescription ? 'blur' : ''
+            }`}
+            alt={title}
+            src={images[0].src}
+            width={IMAGE_SIZE}
+            height={IMAGE_SIZE}
+          />
+        )}
         <div className='description-overlay'>
           <p className='description-text'>{currentPoster?.description}</p>
         </div>
