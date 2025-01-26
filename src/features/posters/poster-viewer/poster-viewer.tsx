@@ -3,10 +3,15 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 import { AddToCartButton } from '@components/ui/add-to-cart-button';
 import { Dropdown, DropdownOption } from '@components/ui/dropdown';
-import { DialogContent, DialogFooter } from '@components/ui/dialog';
+import {
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from '@components/ui/dialog';
 import { PosterInfoButton } from '@features/posters/poster-info-button';
 import { useStore } from '@state/shopify/store';
 
@@ -62,6 +67,9 @@ export const PosterViewer = () => {
           showDescription ? 'show-description' : ''
         }`}
       >
+        <VisuallyHidden>
+          <DialogTitle>Poster viewer</DialogTitle>
+        </VisuallyHidden>
         <Image
           className={`object-contain w-full h-full relative ${
             showDescription ? 'blur' : ''
