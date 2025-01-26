@@ -1,7 +1,7 @@
 'use client';
 
-import StyledComponentsRegistry from '@/lib/styledComponentsRegistry';
-import { ThemeProvider } from '@/components/themeProvider';
+import StyledComponentsRegistry from '@lib/styled-components-registry';
+import { ThemeProvider } from '@components/theme-provider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

@@ -1,4 +1,4 @@
-import PosterGrid from '@/features/posters/PosterGrid';
+import { PosterGrid } from '@features/posters/poster-grid';
 
 export default function IndexPage() {
   return (
@@ -9,4 +9,3 @@ export default function IndexPage() {
     </main>
   );
 }
-

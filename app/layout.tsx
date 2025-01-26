@@ -1,10 +1,10 @@
-import '@/styles/globals.css';
+import '@styles/globals.css';
 
-import { fontMono, fontSans } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
+import { fontMono, fontSans } from '@lib/fonts';
+import { cn } from '@lib/utils';
 
-import { Providers } from '@/lib/providers';
-import { Toaster } from '@/components/ui/Toaster';
+import { Providers } from '@lib/providers';
+import { Toaster } from '@components/ui/toaster';
 
 export const metadata = {
   title: 'nextjs-shopify-printful',
@@ -48,4 +48,3 @@ export default function RootLayout({
     </html>
   );
 }
-

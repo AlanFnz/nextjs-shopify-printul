@@ -1,8 +1,8 @@
-import '@/styles/globals.css';
+import '@styles/globals.css';
 
-import PosterViewer from '@/features/posters/PosterViewer';
-import { SiteHeader } from '@/components/layout/SiteHeader';
-import { Dialog } from '@/components/ui/Dialog';
+import { SiteHeader } from '@components/layout/site-header';
+import { Dialog } from '@components/ui/dialog';
+import { PosterViewer } from '@features/posters/poster-viewer';
 
 export default function RootLayout({
   children,
