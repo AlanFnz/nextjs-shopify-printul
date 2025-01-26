@@ -9,7 +9,9 @@ import { columnsCountBreakPoints, masonryGutter } from './poster-grid.styled';
 import { DialogTrigger } from '@components/ui/dialog';
 import { useStore } from '@state/shopify/store';
 
-export const PosterGrid = ({ posters }: { posters: Product[] }) => {
+export const PosterGrid = () => {
+  const posters = useStore((state) => state.posters);
+  const fetchPosters = useStore((state) => state.fetchPosters);
   const setCurrentPoster = useStore((state) => state.setCurrentPoster);
 
   const setPoster = useCallback(
@@ -18,6 +20,10 @@ export const PosterGrid = ({ posters }: { posters: Product[] }) => {
     },
     [setCurrentPoster]
   );
+
+  useEffect(() => {
+    fetchPosters();
+  }, [fetchPosters]);
 
   return (
     <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
