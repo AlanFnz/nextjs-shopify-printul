@@ -1,7 +1,13 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
-export const PosterContainer = styled.div`
+interface PosterContainerInterface {
+  title: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+export const PosterContainer = styled.div<PosterContainerInterface>`
   position: relative;
   cursor: pointer;
 
