@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { PosterContainer, PosterImage } from './poster.styled';
-import { useImagePosition } from '@hooks/.';
 
 interface Props {
   title: string;
@@ -11,7 +10,6 @@ interface Props {
 
 export const Poster = ({ title, src, setPoster }: Props) => {
   const [useFallback, setUseFallback] = useState(false);
-  const { getPaddingTop, paddingTop } = useImagePosition();
 
   return (
     <PosterContainer onClick={setPoster} title={title}>
@@ -22,11 +20,8 @@ export const Poster = ({ title, src, setPoster }: Props) => {
         <PosterImage
           alt={title}
           src={src}
-          //fill // FIXME: it doesn't load without static dimensions
-          width={500}
-          height={500}
-          unoptimized // FIXME: why it doesn't load without this flag?
-          onLoad={getPaddingTop}
+          width={400}
+          height={400}
           onError={() => setUseFallback(true)}
         />
       )}{' '}
