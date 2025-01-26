@@ -13,3 +13,18 @@ export type Poster = {
   dateCreated: number;
   lastUpdate: number;
 };
+
+export interface PosterImage {
+  src: string;
+  alt: string;
+}
+
+export interface PosterOnGrid {
+  id: string;
+  title: string;
+  images: PosterImage[];
+}
+
+export interface PosterGridProps {
+  posters: Poster[];
+}

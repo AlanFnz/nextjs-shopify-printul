@@ -2,7 +2,7 @@
 const nextConfig = {
   compiler: {
     // Enables the styled-components SWC transform
-    styledComponents: true
+    styledComponents: true,
   },
   images: {
     domains: ['files.cdn.printful.com', 'i.ibb.co'],
@@ -21,6 +21,6 @@ const nextConfig = {
       },
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

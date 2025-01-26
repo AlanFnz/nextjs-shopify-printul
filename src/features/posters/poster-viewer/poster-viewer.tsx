@@ -17,14 +17,13 @@ interface Image {
 }
 
 export const PosterViewer = () => {
-  const currentPoster = useStore((state) => state.currentPoster);
   const { addToCart } = useStore();
+  const currentPoster = useStore((state) => state.currentPoster);
   const cleanCurrentPoster = useStore((state) => state.cleanCurrentPoster);
 
   const [showDescription, setShowDescription] = useState(false);
   const [variantError, setVariantError] = useState(false);
   const [errorAnimationKey, setErrorAnimationKey] = useState(0);
-
   const [selectedVariant, setSelectedVariant] = useState<DropdownOption | null>(
     null
   );
