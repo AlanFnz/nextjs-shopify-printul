@@ -10,7 +10,7 @@ import { Icons } from '@components/icons';
 
 export interface DropdownOption {
   id: string;
-  title: string;
+  label: string;
 }
 
 interface DropdownProps {
@@ -78,7 +78,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
               key={option.id}
               aria-controls='dropdown-options'
             >
-              {option.title}
+              {option.label}
             </div>
           ))}
       </div>
@@ -91,7 +91,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       <input
         type='text'
         readOnly
-        placeholder={selectedOption ? selectedOption.title : 'Select variant'}
+        placeholder={selectedOption ? selectedOption.label : 'Select variant'}
         className={inputPlaceholderClasses}
         aria-readonly='true'
       />

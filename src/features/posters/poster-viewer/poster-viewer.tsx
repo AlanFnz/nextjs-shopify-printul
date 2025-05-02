@@ -34,8 +34,11 @@ export const PosterViewer = () => {
   );
 
   const title = currentPoster?.title || '';
-  const images = currentPoster?.images;
-  const variants = currentPoster?.variants || [];
+  const variants =
+    currentPoster?.variants?.edges?.map((edge) => ({
+      id: edge.node.id,
+      label: edge.node.title,
+    })) || [];
 
   const handleAddToCart = async () => {
     if (selectedVariant) {
@@ -70,13 +73,13 @@ export const PosterViewer = () => {
         <VisuallyHidden>
           <DialogTitle>Poster viewer</DialogTitle>
         </VisuallyHidden>
-        {images?.[0] && (
+        {currentPoster?.featuredImage?.url && (
           <Image
             className={`object-contain w-full h-full relative ${
               showDescription ? 'blur' : ''
             }`}
             alt={title}
-            src={images[0].src}
+            src={currentPoster.featuredImage.url}
             width={IMAGE_SIZE}
             height={IMAGE_SIZE}
           />
@@ -86,11 +89,11 @@ export const PosterViewer = () => {
         </div>
       </div>
       <DialogFooter>
-        {currentPoster?.variants && (
+        {variants.length > 0 && (
           <Dropdown
             key={errorAnimationKey}
             classNames={`${variantError ? 'animate-shake-once' : ''}`}
-            options={currentPoster.variants}
+            options={variants}
             selectedOption={selectedVariant}
             onSelectOption={handleSelectVariant}
           />

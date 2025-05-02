@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { formatPrice } from '@lib/utils';
@@ -20,28 +20,23 @@ import { UpdateCart } from '@components/cart/update-cart';
 import { Icons } from '@components/icons';
 import { Spinner } from '@components/ui/spinner';
 import { useStore } from '@state/shopify/store';
-import { CartLineItem } from '@src/types/.';
 
 export function CartSheet() {
   const [displayedCount, setDisplayedCount] = useState(0);
   const isLoading = useStore((state) => state.loading);
-  const selectCheckout = useCallback(
-    (state: { checkout: any }) => state.checkout,
-    []
-  );
-  const checkout = useStore(selectCheckout);
-  const cartLineItems: CartLineItem[] = checkout?.lineItems || [];
+  const cart = useStore((state) => state.cart);
+
+  const cartLineItems = cart?.lines?.edges?.map((edge: any) => edge.node) || [];
 
   const itemCount = cartLineItems.reduce(
-    (total, item) => total + Number(item.quantity),
+    (total: any, item: any) => total + Number(item.quantity),
     0
   );
 
-  const cartTotal = cartLineItems.reduce(
-    (total, item) =>
-      total + Number(item.quantity) * Number(item.variant.price.amount),
-    0
-  );
+  const cartTotal = cartLineItems.reduce((total: any, item: any) => {
+    const price = Number(item.merchandise?.price?.amount);
+    return total + price * Number(item.quantity);
+  }, 0);
 
   useEffect(() => {
     setDisplayedCount(itemCount);
@@ -83,17 +78,17 @@ export function CartSheet() {
             >
               <ScrollArea className='h-full'>
                 <div className='flex flex-col gap-5 pr-6'>
-                  {cartLineItems.map((item) => (
+                  {cartLineItems.map((item: any) => (
                     <div key={item.id} className='space-y-3'>
                       <div className='flex items-center space-x-4'>
                         <div className='relative h-16 w-16 overflow-hidden rounded'>
-                          {item?.variant?.image.src ? (
+                          {item?.merchandise?.image?.url ? (
                             <Image
-                              src={
-                                item?.variant?.image.src ??
-                                '/images/product-placeholder.webp'
+                              src={item.merchandise?.image.url}
+                              alt={
+                                item.merchandise?.image.altText ||
+                                item.merchandise?.title
                               }
-                              alt={item?.variant?.image.altText ?? item.title}
                               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                               fill
                               className='absolute object-cover'
@@ -109,23 +104,18 @@ export function CartSheet() {
                           )}
                         </div>
                         <div className='flex flex-1 flex-col gap-1 self-start text-sm'>
-                          <span className='line-clamp-1'>{item.title}</span>
+                          <span className='line-clamp-1'>
+                            {item.merchandise?.title}
+                          </span>
                           <span className='line-clamp-1 text-muted-foreground'>
-                            {formatPrice(item.variant.price.amount)} x{' '}
+                            {formatPrice(item.merchandise?.price?.amount)} x{' '}
                             {item.quantity} ={' '}
                             {formatPrice(
                               (
-                                Number(item.variant.price.amount) *
+                                Number(item.merchandise?.price?.amount) *
                                 Number(item.quantity)
                               ).toFixed(2)
                             )}
-                          </span>
-                          <span className='line-clamp-1 text-xs capitalize text-muted-foreground'>
-                            {`${item.variant.title} ${
-                              item.variant.weight && item.variant.weightUnit
-                                ? `/ ${item.variant.weight} ${item.variant.weightUnit}`
-                                : ''
-                            }`}
                           </span>
                         </div>
                         <UpdateCart cartLineItem={item} />
@@ -181,11 +171,11 @@ export function CartSheet() {
             </span>
           </div>
         )}
-        {isLoading ? (
+        {isLoading && (
           <div className='absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center'>
             <Spinner />
           </div>
-        ) : null}
+        )}
       </SheetContent>
     </Sheet>
   );

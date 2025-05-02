@@ -20,6 +20,7 @@ export function setLoading(state: InitialStateType, loading: boolean) {
   state.loading = loading;
 }
 
-export const saveCheckoutToLocalStorage = (checkout: Checkout) => {
-  localStorage.setItem('checkout', JSON.stringify(checkout));
+export const saveCartToLocalStorage = (cart: any) => {
+  localStorage.setItem('cart', JSON.stringify(cart));
 };
+

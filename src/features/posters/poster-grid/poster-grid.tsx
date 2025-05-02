@@ -1,8 +1,8 @@
 'use client';
 
-import { use, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { Product } from 'shopify-buy';
+import { Product } from '@state/shopify/api';
 
 import { Poster } from '@features/posters/poster';
 import { columnsCountBreakPoints, masonryGutter } from './poster-grid.styled';
@@ -33,7 +33,7 @@ export const PosterGrid = () => {
             <DialogTrigger key={poster.id}>
               <Poster
                 title={poster.title}
-                src={poster.images[0].src}
+                src={poster.featuredImage?.url}
                 setPoster={() => setPoster(poster)}
               />
             </DialogTrigger>

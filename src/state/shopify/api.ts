@@ -1,56 +1,70 @@
-import { getClient } from './utils';
-import { Product, Checkout, CheckoutLineItemInput } from 'shopify-buy';
+import { fetchShopify } from './shopify-client';
+
+export type Product = {
+  id: string;
+  title: string;
+  handle: string;
+  description: string;
+  featuredImage?: {
+    url: string;
+    altText: string;
+  };
+  variants: {
+    edges: {
+      node: {
+        id: string;
+        title: string;
+        price: {
+          amount: string;
+          currencyCode: string;
+        };
+        image?: {
+          url: string;
+          altText: string;
+        };
+        availableForSale: boolean;
+      };
+    }[];
+  };
+};
 
 export const fetchPosters = async (): Promise<Product[]> => {
-  const client = getClient();
-  const products = await client.product.fetchAll();
-  return products;
-};
+  const query = `
+    {
+      products(first: 20) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            featuredImage {
+              url
+              altText
+            }
+            variants(first: 1) {
+              edges {
+                node {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  image {
+                    url
+                    altText
+                  }
+                  availableForSale
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
 
-export const createCheckout = async (): Promise<Checkout> => {
-  const client = getClient();
-  const checkout = await client.checkout.create();
-  return checkout;
-};
-
-export const updateCheckout = async (
-  checkoutId: string,
-  input: any
-): Promise<Checkout> => {
-  const client = getClient();
-  const checkout = await client.checkout.updateAttributes(checkoutId, input);
-  return checkout;
-};
-
-export const addToCart = async (
-  checkoutId: string,
-  lineItems: CheckoutLineItemInput[]
-): Promise<Checkout> => {
-  const client = getClient();
-  const checkout = await client.checkout.addLineItems(checkoutId, lineItems);
-  return checkout;
-};
-
-export const removeFromCart = async (
-  checkoutId: string,
-  lineItemIdsToRemove: string[]
-): Promise<Checkout> => {
-  const client = getClient();
-  const checkout = await client.checkout.removeLineItems(
-    checkoutId,
-    lineItemIdsToRemove
-  );
-  return checkout;
-};
-
-export const updateCart = async (
-  checkoutId: string,
-  lineItemsToUpdate: CheckoutLineItemInput[]
-): Promise<Checkout> => {
-  const client = getClient();
-  const checkout = await client.checkout.updateLineItems(
-    checkoutId,
-    lineItemsToUpdate
-  );
-  return checkout;
+  const data = await fetchShopify(query);
+  return data.products.edges.map((edge: any) => edge.node);
 };

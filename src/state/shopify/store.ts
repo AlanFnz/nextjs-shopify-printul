@@ -1,31 +1,30 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { CheckoutLineItem } from 'shopify-buy';
-
-import { saveCheckoutToLocalStorage } from './utils';
-import { State } from '@src/types/.';
 
 import {
+  createCart,
   addToCart,
-  createCheckout,
-  fetchPosters,
   removeFromCart,
-  updateCart,
-  updateCheckout,
-} from './api';
+  updateCartLine,
+} from './cart-api';
+import { fetchPosters } from './api';
+import { saveCartToLocalStorage } from './utils';
+import { State } from '@src/types/.';
 
 export const useStore = create<State>()(
   persist(
     (set, get) => ({
       posters: [],
-      checkout: null,
+      cart: null,
       currentPoster: null,
       errorMessage: '',
       loading: false,
+
       setCurrentPoster: (poster) => set({ currentPoster: poster }),
       cleanCurrentPoster: () => set({ currentPoster: null }),
       cleanPosters: () => set({ posters: [] }),
       cleanErrorMessage: () => set({ errorMessage: '' }),
+
       fetchPosters: async () => {
         set({ loading: true });
         try {
@@ -35,90 +34,86 @@ export const useStore = create<State>()(
           set({ loading: false, errorMessage: error.message });
         }
       },
+
       createCheckout: async () => {
         set({ loading: true });
         try {
-          const checkout = await createCheckout();
-          saveCheckoutToLocalStorage(checkout);
-          set({ checkout, loading: false });
+          const cart = await createCart();
+          saveCartToLocalStorage(cart);
+          set({ cart, loading: false });
         } catch (error: any) {
           set({ loading: false, errorMessage: error.message });
         }
       },
-      updateCheckout: async (checkoutId: string, input: any) => {
-        set({ loading: true });
-        try {
-          const checkout = await updateCheckout(checkoutId, input);
-          saveCheckoutToLocalStorage(checkout);
-          set({ checkout, loading: false });
-        } catch (error: any) {
-          set({ loading: false, errorMessage: error.message });
-        }
+
+      updateCheckout: async () => {
+        console.warn('updateCheckout is not used with Storefront API Cart.');
       },
+
       addToCart: async (variantId: string, quantity: number = 1) => {
         set({ loading: true });
         try {
-          const currentState = get();
-          let checkout = currentState.checkout;
+          let { cart } = get();
 
-          if (!checkout) {
-            checkout = await createCheckout();
-            set({ checkout });
+          if (!cart) {
+            cart = await createCart();
+            set({ cart });
           }
 
-          const lineItems = [{ variantId, quantity }];
-          checkout = await addToCart(checkout.id, lineItems);
-          saveCheckoutToLocalStorage(checkout);
-          set({ checkout, loading: false });
+          const updatedCart = await addToCart(cart.id, variantId, quantity);
+          console.log("🚀 ~ addToCart: ~ updatedCart:", updatedCart)
+          saveCartToLocalStorage(updatedCart);
+          set({ cart: updatedCart, loading: false });
         } catch (error: any) {
+          console.log('Error adding to cart:', error);
           set({ loading: false, errorMessage: error.message });
         }
       },
+
       removeFromCart: async (lineItemId: string) => {
         set({ loading: true });
         try {
-          const currentState = get();
-          let checkout = currentState.checkout;
+          const { cart } = get();
 
-          if (!checkout) {
-            set({ loading: false, errorMessage: 'No checkout available' });
+          if (!cart) {
+            set({ loading: false, errorMessage: 'No cart available' });
             return;
           }
 
-          checkout = await removeFromCart(checkout.id, [lineItemId]);
-          saveCheckoutToLocalStorage(checkout);
-          set({ checkout, loading: false });
+          const updatedCart = await removeFromCart(cart.id, [lineItemId]);
+          saveCartToLocalStorage(updatedCart);
+          set({ cart: updatedCart, loading: false });
         } catch (error: any) {
           set({ loading: false, errorMessage: error.message });
         }
       },
+
       updateCart: async (variantId: string, quantity: number) => {
         set({ loading: true });
         try {
-          const currentState = get();
-          let checkout = currentState.checkout;
+          const { cart } = get();
 
-          if (!checkout) {
-            set({ loading: false, errorMessage: 'No checkout available' });
+          if (!cart) {
+            set({ loading: false, errorMessage: 'No cart available' });
             return;
           }
 
-          const lineItemsToUpdate = checkout.lineItems
-            .map((item: CheckoutLineItem) => {
-              if (item.variant && item.variant.id === variantId) {
-                return { id: item.id, variantId: item.variant.id, quantity };
-              }
-              return {
-                id: item.id,
-                variantId: item.variant?.id || '',
-                quantity: item.quantity,
-              };
-            })
-            .filter((item) => item.variantId !== '');
+          const line = cart.lines.edges.find(
+            (edge: any) => edge.node.merchandise.id === variantId
+          );
 
-          checkout = await updateCart(checkout.id, lineItemsToUpdate);
-          saveCheckoutToLocalStorage(checkout);
-          set({ checkout, loading: false });
+          if (!line) {
+            set({ loading: false, errorMessage: 'Item not found in cart' });
+            return;
+          }
+
+          const updatedCart = await updateCartLine(
+            cart.id,
+            line.node.id,
+            quantity
+          );
+          saveCartToLocalStorage(updatedCart);
+          set({ cart: updatedCart, loading: false });
         } catch (error: any) {
           set({ loading: false, errorMessage: error.message });
         }
@@ -126,7 +121,7 @@ export const useStore = create<State>()(
     }),
     {
       name: 'shopify-store',
-      partialize: (state) => ({ checkout: state.checkout }),
+      partialize: (state) => ({ cart: state.cart }),
     }
   )
 );
