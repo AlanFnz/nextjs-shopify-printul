@@ -6,8 +6,10 @@ export async function createCart() {
       cartCreate {
         cart {
           id
+          createdAt
+          updatedAt
           checkoutUrl
-          lines(first: 10) {
+          lines(first: 100) {
             edges {
               node {
                 id
@@ -16,6 +18,14 @@ export async function createCart() {
                   ... on ProductVariant {
                     id
                     title
+                    price {
+                      amount
+                      currencyCode
+                    }
+                    image {
+                      url
+                      altText
+                    }
                   }
                 }
               }
@@ -40,8 +50,10 @@ export async function addToCart(
       cartLinesAdd(cartId: $cartId, lines: $lines) {
         cart {
           id
+          createdAt
+          updatedAt
           checkoutUrl
-          lines(first: 10) {
+          lines(first: 100) {
             edges {
               node {
                 id
@@ -50,6 +62,14 @@ export async function addToCart(
                   ... on ProductVariant {
                     id
                     title
+                    price {
+                      amount
+                      currencyCode
+                    }
+                    image {
+                      url
+                      altText
+                    }
                   }
                 }
               }
@@ -71,21 +91,39 @@ export async function addToCart(
 
 export async function removeFromCart(cartId: string, lineIds: string[]) {
   const query = `
-    mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
-      cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
-        cart {
-          id
-          lines(first: 10) {
-            edges {
-              node {
-                id
+      mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
+        cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+          cart {
+            id
+            createdAt
+            updatedAt
+            checkoutUrl
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         }
       }
-    }
-  `;
+    `;
 
   const variables = { cartId, lineIds };
   const data = await fetchShopify(query, variables);
@@ -98,22 +136,39 @@ export async function updateCartLine(
   quantity: number
 ) {
   const query = `
-    mutation UpdateCartLine($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
-      cartLinesUpdate(cartId: $cartId, lines: $lines) {
-        cart {
-          id
-          lines(first: 10) {
-            edges {
-              node {
-                id
-                quantity
+      mutation UpdateCartLine($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+        cartLinesUpdate(cartId: $cartId, lines: $lines) {
+          cart {
+            id
+            createdAt
+            updatedAt
+            checkoutUrl
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         }
       }
-    }
-  `;
+    `;
 
   const variables = {
     cartId,
