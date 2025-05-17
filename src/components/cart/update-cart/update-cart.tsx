@@ -20,7 +20,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
 
   const handleAddItem = () => {
     startTransition(async () => {
-      await updateCart(cartLineItem.variant.id, quantity + 1);
+      await updateCart(cartLineItem.merchandise.id, quantity + 1);
       toast.success('Added successfully');
     });
   };
@@ -28,7 +28,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
   const handleRemoveItem = () => {
     startTransition(async () => {
       if (quantity > 1) {
-        await updateCart(cartLineItem.variant.id, quantity - 1);
+        await updateCart(cartLineItem.merchandise.id, quantity - 1);
         toast.success('Removed successfully');
       }
     });
@@ -44,7 +44,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     startTransition(async () => {
       const newQuantity = Number(e.target.value);
-      await updateCart(cartLineItem.variant.id, newQuantity);
+      await updateCart(cartLineItem.merchandise.id, newQuantity);
       toast.success('Updated successfully');
     });
   };
@@ -61,7 +61,7 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
           size='icon'
           className='h-8 w-8'
           onClick={handleRemoveItem}
-          disabled={isPending}
+          disabled={isPending || quantity <= 1}
         >
           <Icons.remove className='h-3 w-3' aria-hidden='true' />
           <span className='sr-only'>Remove one item</span>
