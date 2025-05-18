@@ -29,15 +29,16 @@ export const PosterGrid = () => {
     <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
       <Masonry gutter={masonryGutter}>
         {posters?.map((poster: Product) => {
-          return (
-            <DialogTrigger key={poster.id}>
-              <Poster
-                title={poster.title}
-                src={poster.featuredImage?.url}
-                setPoster={() => setPoster(poster)}
-              />
-            </DialogTrigger>
-          );
+          if (poster.featuredImage?.url) // TODO: provide a placeholder image
+            return (
+              <DialogTrigger key={poster.id}>
+                <Poster
+                  title={poster.title}
+                  src={poster.featuredImage.url}
+                  setPoster={() => setPoster(poster)}
+                />
+              </DialogTrigger>
+            );
         })}
       </Masonry>
     </ResponsiveMasonry>

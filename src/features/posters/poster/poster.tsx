@@ -4,7 +4,7 @@ import { PosterContainer, PosterImage } from './poster.styled';
 
 interface Props {
   title: string;
-  src: string | undefined;
+  src: string;
   setPoster: () => void;
 }
 
